@@ -1,7 +1,6 @@
 <template>
 <div>
-    9874654
-    {{$route.params.keyword}}
+   <Nav/>
 </div>
 </template>
 

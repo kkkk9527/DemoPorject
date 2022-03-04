@@ -1,13 +1,13 @@
 <template>
   <div>
-    <Nav/>
-    <GoodsList/>
-    <Recommend/>
-    <Rank/>
-    <Like/>
-    <Floor/>
-    <Floor/>
-    <Brand/>
+    <Nav />
+    <GoodsList />
+    <Recommend />
+    <Rank />
+    <Like />
+    <Floor />
+    <Floor />
+    <Brand />
   </div>
 </template>
 
@@ -17,7 +17,7 @@ import Brand from "./Brand/Brand.vue";
 import Rank from "./Rank/Rank.vue";
 import Recommend from "./Recommend/Recommend.vue";
 import GoodsList from "./GoodsList/GoodsList.vue";
-import Like from './Like/like'
+import Like from "./Like/like";
 
 export default {
   name: "Home",

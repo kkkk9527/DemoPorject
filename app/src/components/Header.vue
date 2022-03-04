@@ -63,7 +63,13 @@ export default {
   },
   methods: {
     search(){
-      this.$router.push({name:'Search',params:{keyword:this.keyWord}})
+      let local={name:'Search'};
+      let query={keyWord:this.keyWord};
+      Object.assign(query,this.$route.query);
+      local.query=query
+      // console.log(local)
+      // this.$router.push({name:'Search',query:{keyword:this.keyWord}})
+      this.$router.push(local);
     }
   },
 };

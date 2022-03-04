@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex"
-import { reqCategoryList } from '@/API'
+import { reqCategoryList, reqBannerList } from '@/API'
+
 Vue.use(Vuex)
 
 const Home = {
@@ -11,14 +12,23 @@ const Home = {
             if (result.code == 200) {
                 context.commit("CATEGORYLIST", result.data)
             }
-        }
+        },
+        async getBannerList(context) {
+            let result = await reqBannerList();
+            if (result.code == 200) {
+                context.commit("GETBANNERLIST", result.data)
+            }
+        },
     },
     mutations: {
         CATEGORYLIST(state, categorylist) {
             state.categoryList = categorylist;
+        },
+        GETBANNERLIST(state, bannerList) {
+            state.bannerList = bannerList;
         }
     },
-    state: { categoryList: [] }
+    state: { categoryList: [], bannerList: [] }
 }
 
 export default new Vuex.Store({

@@ -35,7 +35,7 @@ const route = new VueRouter({
             }
         },
         {
-            path: '/Search/:keyword?',
+            path: '/Search/:key?/:categoryName?/:category1Id?/:category2Id?/:category3Id?',
             name: 'Search',
             component: Search,
             meta: {

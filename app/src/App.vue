@@ -15,7 +15,10 @@ export default {
   components: {
       Header,
       Footer
-  }
+  },
+  mounted() {
+    this.$store.dispatch("Home/categoryList"); //调用reqCategoryList
+  },
 }
 </script>
 
