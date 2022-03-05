@@ -1,0 +1,150 @@
+* {
+    box-sizing: border-box;
+    background-color: aquamarine;
+}
+
+body {
+    transition: all 2s;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+#body {
+    transition: all 2s;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 150vh;
+    margin: 0;
+    padding: 0;
+    transform-origin: 0 0;
+    z-index: 3;
+}
+
+#body1 {
+    transition: all 2s;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 150vh;
+    margin: 0;
+    padding: 0;
+    transform-origin: 0 0;
+    transform: rotate(-15deg);
+    z-index: 3;
+}
+
+#div1 {
+    transition: all 2s;
+    width: 100%;
+    height: 150vh;
+    background-color: blue;
+    z-index: 4;
+}
+
+#div2 {
+    transition: all 2s;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: -125px;
+    top: -125px;
+    width: 250px;
+    height: 250px;
+    border-radius: 100%;
+    background-color: blueviolet;
+    z-index: 5;
+}
+
+#div3 {
+    transition: all 2s;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: -125px;
+    top: -125px;
+    width: 250px;
+    height: 250px;
+    border-radius: 100%;
+    background-color: blueviolet;
+    z-index: 5;
+    transform: rotate(-75deg);
+}
+
+button {
+    width: 60px;
+    height: 40px;
+}
+
+#bt1 {
+    position: relative;
+    left: 25px;
+    top: 55px;
+    background-color: blueviolet;
+    border: none;
+}
+
+#bt2 {
+    border: none;
+    position: relative;
+    left: -30px;
+    top: 55px;
+    transform: rotate(90deg);
+    background-color: blueviolet;
+}
+
+#ul1 {
+    transition: all 0.5s;
+    transition-delay: 2s;
+    position: fixed;
+    padding: 0;
+    margin-top: 0;
+    z-index: 6;
+    float: inline-end;
+    top: 82%;
+    left: 0px;
+}
+
+#ul2 {
+    transition: all 2s;
+    position: fixed;
+    padding: 0;
+    margin-top: 0;
+    z-index: 6;
+    float: inline-end;
+    top: 82%;
+    left: -200px;
+}
+
+li {
+    background-color: chartreuse;
+    text-align: center;
+    list-style: none;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+#list1 {
+    transition: all 1s;
+    transition-delay: 2s;
+    padding-left: 30px;
+}
+
+#list2 {
+    transition: all 1s;
+    transition-delay: 2s;
+    padding-left: 90px;
+}
+
+#list3 {
+    transition: all 1s;
+    transition-delay: 2s;
+    padding-left: 150px;
+}

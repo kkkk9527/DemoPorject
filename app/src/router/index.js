@@ -7,6 +7,11 @@ import Home from '@/page/Home/Home.vue'
 import Register from '@/page/Register.vue'
 import Login from '@/page/Login.vue'
 
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+}
+
 // 创建路由规则
 const route = new VueRouter({
     routes: [
@@ -35,7 +40,8 @@ const route = new VueRouter({
             }
         },
         {
-            path: '/Search/:key?/:categoryName?/:category1Id?/:category2Id?/:category3Id?',
+            path: '/Search/:keyword?/:categoryName?/:category1Id?/:category2Id?/:category3Id?',
+            //path: '/Search',
             name: 'Search',
             component: Search,
             meta: {

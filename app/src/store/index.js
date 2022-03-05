@@ -1,38 +1,133 @@
 import Vue from "vue";
 import Vuex from "vuex"
-import { reqCategoryList, reqBannerList } from '@/API'
+import { reqCategoryList, reqBannerList, reqFloorList, searchInfo } from '@/API'
 
 Vue.use(Vuex)
-
+    /**Home组件及相关组件数据 */
 const Home = {
+        namespaced: true,
+        actions: {
+            /** 获取三级菜单列表*/
+            async categoryList(context) {
+                let result = await reqCategoryList();
+                if (result.code == 200) {
+                    context.commit("CATEGORYLIST", result.data)
+                }
+            },
+            /**获取NAV组件轮播图地址 */
+            async getBannerList(context) {
+                let result = await reqBannerList();
+                if (result.code == 200) {
+                    context.commit("GETBANNERLIST", result.data)
+                }
+            },
+            /** 获取Floor组件轮播图地址*/
+            async getFloorList(context) {
+                let result = await reqFloorList();
+                if (result.code == 200) {
+                    context.commit("GETFLOORLIST", result.data)
+                }
+            },
+        },
+        mutations: {
+            CATEGORYLIST(state, categorylist) {
+                state.categoryList = categorylist;
+            },
+            GETBANNERLIST(state, bannerList) {
+                state.bannerList = bannerList;
+            },
+            GETFLOORLIST(state, floorList) {
+                state.floorList = floorList;
+            },
+        },
+        state: {
+            categoryList: [], //服务器三级菜单数据
+            bannerList: [], //GoodsList轮播地址
+            floorList: [] //Floor轮播地址
+        }
+    }
+    /**Search组件及相关组件数据 */
+const Search = {
     namespaced: true,
     actions: {
-        async categoryList(context) {
-            let result = await reqCategoryList();
+        async SearchInfo(context) {
+            let result = await searchInfo(context.state.searchData);
             if (result.code == 200) {
-                context.commit("CATEGORYLIST", result.data)
+                console.log(result);
+                context.commit('SEARCHINFO', result.data)
             }
-        },
-        async getBannerList(context) {
-            let result = await reqBannerList();
-            if (result.code == 200) {
-                context.commit("GETBANNERLIST", result.data)
-            }
-        },
-    },
-    mutations: {
-        CATEGORYLIST(state, categorylist) {
-            state.categoryList = categorylist;
-        },
-        GETBANNERLIST(state, bannerList) {
-            state.bannerList = bannerList;
         }
     },
-    state: { categoryList: [], bannerList: [] }
+    mutations: {
+        SEARCHINFO(state, data) {
+            state.SearchInfo = data;
+        },
+        //合并数据
+        MERGEDATA(state, data) {
+            Object.assign(state.searchData, data);
+        }
+    },
+    getters: {
+        goodsList(state) {
+            //if (JSON.stringify(state) != '{}')
+            return state.SearchInfo.goodsList || [];
+        },
+        attrsList(state) {
+            //if (JSON.stringify(state) != '{}')
+            return state.SearchInfo.attrsList || [];
+        },
+        pageNo(state) {
+            //if (JSON.stringify(state) != '{}')
+            return state.SearchInfo.pageNo || [];
+        },
+        pageSize(state) {
+            // if (JSON.stringify(state) != '{}')
+            return state.SearchInfo.pageSize || [];
+        },
+        total(state) {
+            //if (JSON.stringify(state) != '{}')
+            return state.SearchInfo.total || [];
+        },
+        totalPages(state) {
+            //if (JSON.stringify(state) != '{}')
+            return state.SearchInfo.totalPages || [];
+        },
+        trademarkList(state) {
+            //if (JSON.stringify(state) != '{}')
+            return state.SearchInfo.trademarkList || [];
+        }
+    },
+    state: {
+        SearchInfo: [],
+        searchData: {
+            category1Id: "",
+            //一级id
+            category2Id: "",
+            //二级id
+            category3Id: "",
+            //三级id
+            categoryName: "",
+            //商品种类
+            keyword: "",
+            //关键字
+            order: "",
+            //排序
+            pageNo: 1,
+            //代表第几页
+            pageSize: 10,
+            //每页展示的数据数量
+            props: [],
+            //平台给商品的信息
+            trademark: "",
+            //品牌
+        }
+    }
 }
+
 
 export default new Vuex.Store({
     modules: {
-        Home
+        Home,
+        Search
     }
 })

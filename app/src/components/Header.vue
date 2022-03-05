@@ -42,7 +42,7 @@
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
-            v-model="keyWord"
+            v-model="keyword"
           />
           <button class="sui-btn btn-xlarge btn-danger" type="button" @click="search">
             搜索
@@ -58,18 +58,20 @@ export default {
   name: "Header",
   data() {
     return {
-      keyWord:''
+      keyword:'',
+      paramsData: {}
     }
   },
   methods: {
     search(){
       let local={name:'Search'};
-      let query={keyWord:this.keyWord};
-      Object.assign(query,this.$route.query);
-      local.query=query
-      // console.log(local)
-      // this.$router.push({name:'Search',query:{keyword:this.keyWord}})
+      let query = JSON.parse(JSON.stringify(this.$route.query));//保留原本路由中的参数
+      query.keyword=this.keyword;
+      //Object.assign(this.$route.query,query);
+      local.query=query;
+      this.$store.commit("Search/MERGEDATA", query); //修改vuex中的数据
       this.$router.push(local);
+      this.$store.dispatch("Search/SearchInfo");
     }
   },
 };

@@ -1,0 +1,28 @@
+* {
+    box-sizing: border-box;
+}
+
+#listmenu {
+    list-style: none;
+}
+
+#listmenu li {
+    display: inline;
+}
+
+#listmenu li a {
+    text-decoration: none;
+}
+
+#showPicture {
+    width: 800px;
+    height: 800px;
+    object-fit: contain;
+    border: 1px solid black;
+}
+
+.temp {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}

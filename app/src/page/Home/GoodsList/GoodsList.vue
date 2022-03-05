@@ -3,28 +3,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="@/images/home/banner1.jpg" />
-            </div>
-            <!--div class="swiper-slide">
-              <img src="@/images/home/banner2.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="@/images/home/banner3.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="@/images/home/banner4.jpg" />
-            </div-->
-          </div>
-          <!-- 如果需要分页器 -->
-          <div class="swiper-pagination"></div>
-
-          <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-        </div>
+        <Carsousel :List="bannerList"></Carsousel>
       </div>
       <div class="right">
         <div class="news">
@@ -100,15 +79,24 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+//import { mapState } from "vuex";
+//import Swiper from 'swiper'
+import Carsousel from '../../../components/Carsousel.vue';
 export default {
-    name:'GoodsList',
-    computed:{
-      ...mapState('Home',['bannerList'])
-    },
-    mounted() {
-      this.$store.dispatch('Home/getBannerList');
-    },
+  components: { Carsousel },
+  name: "GoodsList",
+  computed: {
+    //...mapState("Home", ["bannerList"]),
+    bannerList(){
+      return this.$store.state.Home.bannerList
+    }
+  },
+  mounted() {
+    this.$store.dispatch("Home/getBannerList");
+    //setTimeout(() => {
+    //  ,2000
+    //});
+  },
 };
 </script>
 

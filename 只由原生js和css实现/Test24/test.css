@@ -1,0 +1,72 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+}
+
+#panel1 {
+    transition: all 0.1s;
+    transition-timing-function: linear;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-image: url("D:\\gitWorkSpace\\Test\\工作\\练习项目\\img\\1.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-clip: content-box;
+    filter: brightness(0.5);
+}
+
+#panel2 {
+    transition: all 0.2s;
+    transition-timing-function: linear;
+    float: left;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    height: 800px;
+    background-image: url("D:\\gitWorkSpace\\Test\\工作\\练习项目\\img\\1.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: unset;
+    z-index: 1;
+    border: 1px solid black;
+}
+
+.but {
+    float: left;
+    width: 50px;
+    height: 50px;
+    background-color: unset;
+    position: absolute;
+    z-index: 0;
+    color: red;
+    border-style: solid;
+    border-color: black;
+}
+
+#prev {
+    top: 50%;
+    left: 32%;
+}
+
+#next {
+    top: 50%;
+    left: 64%;
+}
+
+@keyframes ani1 {
+    form {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
