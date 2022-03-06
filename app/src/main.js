@@ -16,6 +16,9 @@ reqCategoryList();
 
 new Vue({
     render: h => h(App),
+    beforeCreate() {
+        Vue.prototype.$bus = this;
+    },
     router,
     store
 }).$mount('#app')

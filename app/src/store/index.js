@@ -53,7 +53,7 @@ const Search = {
         async SearchInfo(context) {
             let result = await searchInfo(context.state.searchData);
             if (result.code == 200) {
-                console.log(result);
+                console.log(result.data);
                 context.commit('SEARCHINFO', result.data)
             }
         }
@@ -95,30 +95,33 @@ const Search = {
         trademarkList(state) {
             //if (JSON.stringify(state) != '{}')
             return state.SearchInfo.trademarkList || [];
+        },
+        breadInfo(state) {
+            return state.searchData;
         }
     },
     state: {
         SearchInfo: [],
         searchData: {
-            category1Id: "",
+            category1Id: undefined,
             //一级id
-            category2Id: "",
+            category2Id: undefined,
             //二级id
-            category3Id: "",
+            category3Id: undefined,
             //三级id
-            categoryName: "",
+            categoryName: undefined,
             //商品种类
-            keyword: "",
+            keyword: undefined,
             //关键字
-            order: "",
+            order: undefined,
             //排序
-            pageNo: 1,
+            pageNo: undefined,
             //代表第几页
-            pageSize: 10,
+            pageSize: undefined,
             //每页展示的数据数量
-            props: [],
+            props: undefined,
             //平台给商品的信息
-            trademark: "",
+            trademark: undefined,
             //品牌
         }
     }

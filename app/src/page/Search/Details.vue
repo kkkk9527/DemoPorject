@@ -3,23 +3,11 @@
     <div class="sui-navbar">
       <div class="navbar-inner filter">
         <ul class="sui-nav">
-          <li class="active">
+          <li :class="active">
             <a href="#">综合</a>
           </li>
-          <li>
-            <a href="#">销量</a>
-          </li>
-          <li>
-            <a href="#">新品</a>
-          </li>
-          <li>
-            <a href="#">评价</a>
-          </li>
-          <li>
-            <a href="#">价格⬆</a>
-          </li>
-          <li>
-            <a href="#">价格⬇</a>
+          <li :class="!active">
+            <a href="#">价格</a>
           </li>
         </ul>
       </div>
@@ -425,6 +413,11 @@
 import {mapGetters} from 'vuex'
 export default {
   name: "Details",
+  data() {
+    return {
+      active:false
+    }
+  },
   computed:{
     ...mapGetters('Search',['goodsList'])
   }

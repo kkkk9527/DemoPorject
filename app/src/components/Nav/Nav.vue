@@ -136,13 +136,20 @@ export default {
         // categoryName: categoryname,
         // };
         //let Query1 = this.$route.query; //获取当前路由中的query参数
-        let query = JSON.parse(JSON.stringify(this.$route.query));//保留原本路由中的参数 
+        let query = JSON.parse(JSON.stringify(this.$route.query)); //保留原本路由中的参数
         query.categoryName = categoryname; //获取当前路由中的query参数
+        //query对象赋值
         if (category1id) {
           query.category1Id = category1id;
+          query.category2Id = undefined;
+          query.category3Id = undefined;
         } else if (category2id) {
+          query.category1Id = undefined;
           query.category2Id = category2id;
+          query.category3Id = undefined;
         } else {
+          query.category1Id = undefined;
+          query.category2Id = undefined;
           query.category3Id = category3id;
         }
         this.$store.commit("Search/MERGEDATA", query); //将query中的数据添加到vuex中
@@ -150,6 +157,7 @@ export default {
         console.log(this.$route.query);
         // 调用查询服务器方法
         this.$store.dispatch("Search/SearchInfo");
+        this.$bus.$emit('addCategoryName',categoryname)
       }
     },
     showList() {

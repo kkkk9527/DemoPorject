@@ -71,9 +71,13 @@ export default {
       local.query=query;
       this.$store.commit("Search/MERGEDATA", query); //修改vuex中的数据
       this.$router.push(local);
+      this.$bus.$emit('addKeyWord',this.keyword)
       this.$store.dispatch("Search/SearchInfo");
     }
   },
+  //mounted() {
+  //    this.$bus.$emit('addKeyWord',this.keyword)
+  //  },
 };
 </script>
 
