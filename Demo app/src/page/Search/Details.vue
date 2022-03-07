@@ -3,11 +3,23 @@
     <div class="sui-navbar">
       <div class="navbar-inner filter">
         <ul class="sui-nav">
-          <li :class="active">
-            <a href="#">综合</a>
+          <li :class="{ active: isOne }" @click="chooseSortModeOne">
+            <a href="#"
+              >综合<span
+                v-show="isOne"
+                class="iconfont"
+                :class="{ 'icon-down': isDesc, 'icon-up': isAsc }"
+              ></span
+            ></a>
           </li>
-          <li :class="!active">
-            <a href="#">价格</a>
+          <li :class="{ active: isTwo }" @click="chooseSortModeTwo">
+            <a href="#"
+              >价格<span
+                v-show="isTwo"
+                class="iconfont"
+                :class="{ 'icon-down': isDesc, 'icon-up': isAsc }"
+              ></span
+            ></a>
           </li>
         </ul>
       </div>
@@ -24,7 +36,7 @@
             <div class="price">
               <strong>
                 <em>¥</em>
-                <i>{{goods.price}}</i>
+                <i>{{ goods.price }}</i>
               </strong>
             </div>
             <div class="attr">
@@ -32,7 +44,7 @@
                 target="_blank"
                 href="item.html"
                 title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】"
-                >{{goods.title}}</a
+                >{{ goods.title }}</a
               >
             </div>
             <div class="commit">
@@ -410,17 +422,59 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from "vuex";
 export default {
   name: "Details",
   data() {
     return {
-      active:false
-    }
+      order: "2:desc",
+    };
   },
-  computed:{
-    ...mapGetters('Search',['goodsList'])
-  }
+  methods: {
+    chooseSortModeOne() {
+      //判断当前是以什么条件排序
+      if (this.order.indexOf("2")) {
+        this.order = "1:desc";
+      } else {
+        this.order = this.order.indexOf("desc") == -1 ? "1:desc" : "1:asc";
+      }
+      let query = JSON.parse(JSON.stringify(this.$route.query));
+      let searchData = { order: this.order };
+      this.$router.push({ name: "Search", query: query });
+      this.$store.commit("Search/MERGEDATA", searchData); //向vuex中添加数据
+      this.$store.dispatch("Search/SearchInfo"); //使用vuex向后台请求数据
+    },
+    chooseSortModeTwo() {
+      //判断当前是以什么条件排序
+      if (this.order.indexOf("1")) {
+        this.order = "2:desc";
+      } else {
+        this.order = this.order.indexOf("desc") == -1 ? "2:desc" : "2:asc";
+      }
+      let query = JSON.parse(JSON.stringify(this.$route.query));
+      let searchData = { order: this.order };
+      this.$router.push({ name: "Search", query: query });
+      this.$store.commit("Search/MERGEDATA", searchData); //向vuex中添加数据
+      this.$store.dispatch("Search/SearchInfo"); //使用vuex向后台请求数据
+    },
+  },
+  computed: {
+    ...mapGetters("Search", ["goodsList"]),
+    //判断该给哪个排序选项添加背景色
+    isOne() {
+      return this.order.indexOf("1") != -1;
+    },
+    isTwo() {
+      return this.order.indexOf("2") != -1;
+    },
+    //判断添加哪个方向的箭头
+    isDesc() {
+      return this.order.indexOf("desc") != -1;
+    },
+    isAsc() {
+      return this.order.indexOf("asc") != -1;
+    },
+  },
 };
 </script>
 
