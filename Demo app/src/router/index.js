@@ -40,7 +40,8 @@ const route = new VueRouter({
             }
         },
         {
-            path: '/Search/:keyword?/:categoryName?/:category1Id?/:category2Id?/:category3Id?',
+            //path: '/Search/:keyword?/:categoryName?/:category1Id?/:category2Id?/:category3Id?', 
+            path: '/Search',
             //path: '/Search',
             name: 'Search',
             component: Search,

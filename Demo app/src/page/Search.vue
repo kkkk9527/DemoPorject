@@ -28,7 +28,7 @@ export default {
   },
   mounted() {
     //console.log(JSON.stringify(this.$route.query));
-    this.$store.dispatch("Search/SearchInfo", this.$route.query);
+    //this.$store.dispatch("Search/SearchInfo", this.$route.query);
   },
 };
 </script>

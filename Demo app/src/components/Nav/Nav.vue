@@ -154,7 +154,7 @@ export default {
         }
         this.$store.commit("Search/MERGEDATA", query); //将query中的数据添加到vuex中
         this.$router.push({ name: local, query: query });
-        console.log(this.$route.query);
+        //console.log(this.$route.query);
         // 调用查询服务器方法
         this.$store.dispatch("Search/SearchInfo");
         this.$bus.$emit('addCategoryName',categoryname)
