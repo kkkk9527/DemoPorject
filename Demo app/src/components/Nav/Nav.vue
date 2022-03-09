@@ -152,6 +152,7 @@ export default {
           query.category2Id = undefined;
           query.category3Id = category3id;
         }
+        query.pageNo=1;
         this.$store.commit("Search/MERGEDATA", query); //将query中的数据添加到vuex中
         this.$router.push({ name: local, query: query });
         //console.log(this.$route.query);

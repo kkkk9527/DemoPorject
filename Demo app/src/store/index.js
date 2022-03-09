@@ -53,7 +53,7 @@ const Search = {
         async SearchInfo(context) {
             let result = await searchInfo(context.state.searchData);
             if (result.code == 200) {
-                console.log(result.data);
+                //console.log(result.data);
                 context.commit('SEARCHINFO', result.data)
             }
         }
@@ -115,9 +115,9 @@ const Search = {
             //关键字
             order: undefined,
             //排序
-            pageNo: undefined,
+            pageNo: 1,
             //代表第几页
-            pageSize: undefined,
+            pageSize: 3,
             //每页展示的数据数量
             props: undefined,
             //平台给商品的信息

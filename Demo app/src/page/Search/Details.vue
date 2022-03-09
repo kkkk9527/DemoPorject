@@ -61,33 +61,8 @@
       </ul>
     </div>
     <div class="fr page">
-      <div class="sui-pagination clearfix">
-        <ul>
-          <li class="prev disabled">
-            <a href="#">«上一页</a>
-          </li>
-          <li class="active">
-            <a href="#">1</a>
-          </li>
-          <li>
-            <a href="#">2</a>
-          </li>
-          <li>
-            <a href="#">3</a>
-          </li>
-          <li>
-            <a href="#">4</a>
-          </li>
-          <li>
-            <a href="#">5</a>
-          </li>
-          <li class="dotted"><span>...</span></li>
-          <li class="next">
-            <a href="#">下一页»</a>
-          </li>
-        </ul>
-        <div><span>共10页&nbsp;</span></div>
-      </div>
+        <PagiNation :pageNo='pageNo' :pageSize='pageSize' :total='total' :continues='5' :totalPages='totalPages'></PagiNation>
+        <!-- pageNo:当前页数， pageSize：每页展示数量，total:总共需要展示的数量，continues:中间需要展示的页数 -->
     </div>
   </div>
 </template>
@@ -154,7 +129,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters("Search", ["goodsList"]),
+    ...mapGetters("Search", ["goodsList","pageNo","pageSize","total","totalPages"]),
     //判断该给哪个排序选项添加背景色
     isOne() {
       return this.order.indexOf("1") != -1;
