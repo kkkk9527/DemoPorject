@@ -6,36 +6,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="test.css">
-    <title>Document</title>
+    <title>动态填充</title>
 </head>
 
 <body>
-    <form id="myForm" action="">
-        <h1>Please Login</h1>
-        <div class="message" id="myEmail">
-            <span class="email">E</span>
-            <span class="email">m</span>
-            <span class="email">a</span>
-            <span class="email">i</span>
-            <span class="email">l</span>
+    <div id="title">
+        <h1>Drink Water</h1>
+        <br>
+        <h4>Goal:2 Liters</h4>
+    </div>
+    <div id="panel1">
+        <!--大量杯-->
+        <div class="bigCup">
+            <div id="textShow1" class="showPanel">
+                <h3>2L</h3>
+                <h5>Remained</h5>
+            </div>
+            <div id="textShow2" class="showPanel">
+                <h2 style="opacity: 0;">0%</h2>
+            </div>
         </div>
-        <input type="text" name="" id="inputEmail" class="myInput">
-        <div class="message" id="myPwd">
-            <span class="password">p</span>
-            <span class="password">a</span>
-            <span class="password">s</span>
-            <span class="password">s</span>
-            <span class="password">w</span>
-            <span class="password">o</span>
-            <span class="password">r</span>
-            <span class="password">d</span>
+    </div>
+    <div id="panel2">
+        <p>Select how many glasses of that you have drank</p>
+        <div id="panel3">
+            <!--小量杯-->
+            <div class="smallCup">250ml</div>
+            <div class="smallCup">250ml</div>
+            <div class="smallCup">250ml</div>
+            <div class="smallCup">250ml</div>
+            <div class="smallCup">250ml</div>
+            <div class="smallCup">250ml</div>
+            <div class="smallCup">250ml</div>
+            <div class="smallCup">250ml</div>
         </div>
-        <input type="text" name="" id="inputPwd" class="myInput">
-        <input type="submit" id="mySubit" class="myInput" value="Login">
-        <p>Don't have an account?<a id="register" href="">Register</a></p>
-    </form>
-    <script src="prepareToLoad.js"></script>
-    <script src="addLoadEvent.js"></script>
+    </div>
     <script src="test.js"></script>
 </body>
 

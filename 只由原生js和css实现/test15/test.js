@@ -1,68 +1,68 @@
-let inputE = document.getElementsByClassName("myInput");
-for (const a of inputE) {
-    a.addEventListener('focusin', () => {
-        if (!a.value) {
-            let messageE = a.previousElementSibling;
-            let childElement = getChildElement(messageE);
-            for (let i = 0, count = childElement.length; i < count; i++) {
-                setTimeout(() => { moveToY(childElement[i], 20, 0, 100) }, i * 75);
-            }
+let smallCup = document.getElementById("panel3").children;
+let targetElement1 = document.getElementById("textShow1");
+let targetElement2 = document.getElementById("textShow2");
+console.log(targetElement1.lastElementChild.tagName);
+for (const a of smallCup) {
+    a.addEventListener("click", () => {
+        if (a.className == "smallCup") {
+            a.className = "smallCupFill";
+            let str = "smallCupFill";
+            changePreviousElement(a, str);
+            checkState(a, targetElement1, targetElement2);
         } else {
-            let messageE = a.previousElementSibling;
-            let childElement = getChildElement(messageE);
-            for (let i = 0, count = childElement.length; i < count; i++) {
-                childElement[i].top = 0;
+            if (a.nextElementSibling && a.nextElementSibling.className == "smallCupFill") {
+                let str = "smallCup";
+                changeNextElementClassName(a, str);
+                checkState(a, targetElement1, targetElement2);
+            } else if (a.nextElementSibling && a.nextElementSibling.className == "smallCup") {
+                a.className = "smallCup";
+                a.lastElementChild
+                checkState(a, targetElement1, targetElement2);
+            } else {
+                return false;
             }
         }
-    })
-    a.addEventListener('blur', () => {
-        if (!a.value) {
-            let messageE = a.previousElementSibling;
-            let childElement = getChildElement(messageE);
-            for (let i = 0, count = childElement.length; i < count; i++) {
-                setTimeout(() => { moveToY(childElement[i], 0, 20, 100) }, i * 75);
-            }
-        }
-    })
+    });
 }
 
-/*
-let a = document.getElementById("inputPwd");
-if (a.nodeType == Node.ELEMENT_NODE) {
-    console.log(a.className)
-}
-console.log(b.length);
-let b = getChildElement(a);
-*/
-function moveToY(targetElement, nowPositionY, toWhereY, time) {
-    targetElement.style.top = `${nowPositionY}px`;
-    let distance = Math.abs(toWhereY - nowPositionY); //计算目标与现在位置的距离
-    let mCount = 40; //设定移动次数
-    let step = distance / mCount; //计算每次移动幅度
-    let timeInterval = time / mCount; //计算移动时间间隔
-    let count = 0;
-    let move = setInterval(() => {
-        if (count <= mCount) {
-            targetElement.style.top = `${Math.abs(nowPositionY-count*step)}px`
-            count++;
-        } else {
-            clearInterval(move);
-        }
-    }, timeInterval)
-}
-
-function getChildElement(element) {
-    let childArray = new Array(),
-        count = 0;
-    if (element.childNodes.length != 0) {
-        for (let i = 0, max = element.childNodes.length; i < max; i++) {
-            if (element.childNodes[i].nodeType == Node.ELEMENT_NODE) {
-                childArray[count] = element.childNodes[i]
-                count++;
-            }
-        }
+function changeNextElementClassName(element, className) {
+    if (element.nextElementSibling) {
+        element.nextElementSibling.className = className;
+        return changeNextElementClassName(element.nextElementSibling, className);
     } else {
         return false;
     }
-    return childArray;
+}
+
+function changePreviousElement(element, className) {
+    if (element.previousElementSibling) {
+        element.previousElementSibling.className = className;
+        return changePreviousElement(element.previousElementSibling, className);
+    } else {
+        return false;
+    }
+}
+
+function checkState(element, targetElement1, targetElement2) {
+    let parentElement = element.parentElement;
+    let count = 0;
+    for (const childElement of parentElement.children) {
+        if (childElement.className == "smallCupFill") {
+            count++;
+        }
+    }
+    targetElement1.setAttribute("style", `height:${100-12.5*count}%`);
+    targetElement1.firstElementChild.innerText = `${2-0.25*count}L`;
+    targetElement2.setAttribute("style", `height:${0+12.5*count}%`);
+    targetElement2.firstElementChild.innerText = `${0+12.5*count}%`;
+    if (count == 0) {
+        setTimeout(() => { targetElement2.firstElementChild.setAttribute("style", `opacity: 0;`) }, 200);
+        targetElement2.firstElementChild.innerText = `${12.5}%`
+    } else if (count != 0 && count != 8) {
+        targetElement2.firstElementChild.removeAttribute("style");
+        targetElement1.lastElementChild.removeAttribute("style")
+    } else {
+        targetElement2.firstElementChild.removeAttribute("style");
+        targetElement1.lastElementChild.setAttribute("style", `opacity: 0;`);
+    }
 }

@@ -29,9 +29,9 @@
         <li class="yui3-u-1-5" v-for="goods in goodsList" :key="goods.id">
           <div class="list-wrap">
             <div class="p-img">
-              <a href="item.html" target="_blank"
-                ><img :src="goods.defaultImg"
-              /></a>
+              <router-link :to="`/Detail/${goods.id}`" >
+                <img :src="goods.defaultImg"
+              /></router-link>
             </div>
             <div class="price">
               <strong>
@@ -61,8 +61,14 @@
       </ul>
     </div>
     <div class="fr page">
-        <PagiNation :pageNo='pageNo' :pageSize='pageSize' :total='total' :continues='5' :totalPages='totalPages'></PagiNation>
-        <!-- pageNo:当前页数， pageSize：每页展示数量，total:总共需要展示的数量，continues:中间需要展示的页数 -->
+      <PagiNation
+        :pageNo="pageNo"
+        :pageSize="pageSize"
+        :total="total"
+        :continues="5"
+        :totalPages="totalPages"
+      ></PagiNation>
+      <!-- pageNo:当前页数， pageSize：每页展示数量，total:总共需要展示的数量，continues:中间需要展示的页数 -->
     </div>
   </div>
 </template>
@@ -111,25 +117,33 @@ export default {
     chooseSortMode(flag) {
       //判断Number类型的flag状态
       let Order = this.order.split(":"); //将this.order拆分为数组并赋值给Order
-      if (flag != Order[0]) {//判断Order[0]与flag是否相等
+      if (flag != Order[0]) {
+        //判断Order[0]与flag是否相等
         Order[0] = flag;
       } else {
-        if (Order[1].indexOf("desc") != -1) {//判断Order[0]是升序还是降序
+        if (Order[1].indexOf("desc") != -1) {
+          //判断Order[0]是升序还是降序
           Order[1] = "asc";
         } else {
           Order[1] = "desc";
         }
       }
       this.order = Order.join(":");
-      let searchData={order:this.order};
+      let searchData = { order: this.order };
       let query = JSON.parse(JSON.stringify(this.$route.query));
-      this.$router.push({name:'Search',query:query});
+      this.$router.push({ name: "Search", query: query });
       this.$store.commit("Search/MERGEDATA", searchData); //向vuex中添加数据
       this.$store.dispatch("Search/SearchInfo"); //使用vuex向后台请求数据
     },
   },
   computed: {
-    ...mapGetters("Search", ["goodsList","pageNo","pageSize","total","totalPages"]),
+    ...mapGetters("Search", [
+      "goodsList",
+      "pageNo",
+      "pageSize",
+      "total",
+      "totalPages",
+    ]),
     //判断该给哪个排序选项添加背景色
     isOne() {
       return this.order.indexOf("1") != -1;

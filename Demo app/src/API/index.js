@@ -8,6 +8,11 @@ export const reqCategoryList = () => requests.get('/product/getBaseCategoryList'
     //搜索商品数据
 export const searchInfo = (params) => requests.post('/list', params);
 
+export const getGoodsInfo = (params) => requests({
+    method: 'get',
+    url: `/item/${params}`,
+});
+
 export const reqBannerList = () => mockRequest.get('/banner');
 
 export const reqFloorList = () => mockRequest.get('/floor');

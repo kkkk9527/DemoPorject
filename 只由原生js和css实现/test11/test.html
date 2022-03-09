@@ -6,26 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="test.css">
-    <title>Document</title>
+    <title>获取按键信息</title>
 </head>
 
 <body>
-    <h1>What is the Document Object Model？</h1>
-    <p>
-        The <abbr title="World Wide Web Consortium">W3C</abbr>defines the <abbr title="Document Object Model">DOM</abbr> as:
-    </p>
-    <blockquote cite="http://www.3w.org/DOM/">
-        <p>
-            A platform- and language-neutral interface that will allow programs and scripts to dynamically access and update the content,structure and style of doucument.
-        </p>
-    </blockquote>
-    <p>
-        It is an <abbr title="Application Programming Interface">API</abbr> that can be used to navigate <abbr title="Hyper Markup Language">
-             HTML
-         </abbr> and <abbr title="eXtensible Markup Language">XML</abbr>documents.
-    </p>
-    <script src="displayAbbreviations.js"></script>
-    <script src="addLoadEvent.js"></script>
+    <div id="but">Press any key to get the keyCode</div>
+    <div class="showPanel">
+        <h5 class="showText">eventKey</h5>
+        <div id="keyName" class="eventShow"></div>
+    </div>
+    <div class="showPanel">
+        <h5 class="showText">eventKeyCode</h5>
+        <div id="keyCode" class="eventShow"></div>
+    </div>
+    <div class="showPanel">
+        <h5 class="showText">eventCode</h5>
+        <div id="eventCode" class="eventShow"></div>
+    </div>
+    <script src="test.js"></script>
 </body>
 
 </html>

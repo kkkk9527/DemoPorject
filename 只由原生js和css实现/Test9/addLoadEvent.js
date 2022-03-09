@@ -9,3 +9,4 @@ function addLoadEvent(func) {
         }
     }
 }
+addLoadEvent(prepareToLoad)

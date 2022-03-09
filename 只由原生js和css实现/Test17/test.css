@@ -1,43 +1,94 @@
 * {
     box-sizing: border-box;
-    margin: 0;
     padding: 0;
+    margin: 0;
 }
 
 body {
     width: 100%;
     height: 100vh;
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
 }
 
-#showPanel {
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    padding: 5% 10%dfc;
-    width: 40%;
-    height: auto;
-    background-color: turquoise;
-    border-radius: 10px;
+#bigPanel {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 30% 30% 40%;
 }
 
-h5 {
-    text-align: center;
+
+/*时钟中心*/
+
+.clock {
+    width: 10px;
+    height: 10px;
+    border: 3px solid orangered;
+    background-color: black;
+    border-radius: 100%;
+    float: left;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-#textShow {
-    text-align: center;
-    word-wrap: normal;
-    margin-top: 50px;
-    margin-bottom: 50px;
+.zhizhen {
+    width: 90px;
+    height: 4px;
+    background-color: black;
+    position: relative;
+    float: left;
+    left: 6px;
+    z-index: 0;
 }
 
-#but1 {
-    width: 200px;
-    padding: 10px;
-    margin: auto;
+#Miao {
+    background-color: orangered;
+    z-index: 1;
+}
+
+#miao {
+    transition: all 0.9s;
+    width: 10px;
+    height: 10px;
+    border: 3px solid orangered;
+    background-color: black;
+    border-radius: 100%;
+    float: left;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#Shi {
+    width: 45px;
+}
+
+#shi {
+    transition: all 0.9s;
+    width: 10px;
+    height: 10px;
+    border: 3px solid orangered;
+    background-color: black;
+    border-radius: 100%;
+    float: left;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#fen {
+    transition: all 0.9s;
+    width: 10px;
+    height: 10px;
+    border: 3px solid orangered;
+    background-color: black;
+    border-radius: 100%;
+    float: left;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

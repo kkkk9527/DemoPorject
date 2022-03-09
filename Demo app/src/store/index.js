@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex"
-import { reqCategoryList, reqBannerList, reqFloorList, searchInfo } from '@/API'
+import { reqCategoryList, reqBannerList, reqFloorList, searchInfo, getGoodsInfo } from '@/API'
 
 Vue.use(Vuex)
     /**Home组件及相关组件数据 */
@@ -127,10 +127,50 @@ const Search = {
     }
 }
 
+//商品详情组件
+const Detail = {
+    namespaced: true,
+    actions: {
+        //获取商品详细信息
+        async getGoodInfo(context, id) {
+            let result = await getGoodsInfo(id);
+            if (result.code == 200) {
+                context.commit("GETGOODINFO", result.data)
+            }
+        },
+    },
+    mutations: {
+        GETGOODINFO(state, data) {
+            state.goodInfo = data;
+        },
+    },
+    getters: {
+        getCategoryView(state) {
+            return state.goodInfo.categoryView || {};
+        },
+        price(state) {
+            return state.goodInfo.price || {};
+        },
+        skuInfo(state) {
+            return state.goodInfo.skuInfo || {};
+        },
+        spuSaleAttrList(state) {
+            return state.goodInfo.spuSaleAttrList || [];
+        },
+        valuesSkuJson(state) {
+            return state.goodInfo.valuesSkuJson || {};
+        }
+    },
+    state: {
+        goodInfo: {}
+    }
+}
+
 
 export default new Vuex.Store({
     modules: {
         Home,
-        Search
+        Search,
+        Detail
     }
 })

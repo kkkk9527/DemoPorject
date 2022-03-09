@@ -4,9 +4,11 @@ node_modules
 src/images
 
 
+
 # local env files
 .env.local
 .env.*.local
+.txt
 
 # Log files
 npm-debug.log*

@@ -1,50 +1,86 @@
 * {
     box-sizing: border-box;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     margin: 0;
     padding: 0;
 }
 
-.div1 {
-    transition: all 1s ease;
-    position: relative;
-    left: 0;
-    width: 250px;
-    height: 150px;
-    margin-bottom: 10px;
-    background-color: turquoise;
-    border-radius: 20px;
-    text-align: center;
-    line-height: 150px;
+body {
+    overflow: hidden;
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
-.div2 {
-    transition: all 1s ease;
-    position: relative;
-    left: -1000px;
-    width: 250px;
-    height: 150px;
-    margin-bottom: 10px;
-    background-color: turquoise;
-    border-radius: 20px;
-    text-align: center;
-    line-height: 150px;
+.panel {
+    display: flex;
+    height: 100vh;
+    width: 100%;
 }
 
-.div3 {
-    transition: all 1s ease;
+#showBox1 {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    line-height: 50%;
+    width: 50%;
+    height: 100vh;
+    background-image: url("../img/ps.jpg");
+    background-size: cover;
+    background-attachment: scroll;
+    transition: 1.5s all ease;
+    overflow: hidden;
+}
+
+#showBox2 {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    line-height: 50%;
+    width: 50%;
+    height: 100vh;
+    background-image: url("../img/xbox.jpg");
+    background-size: cover;
+    background-attachment: scroll;
+    transition: 1.5s all ease;
+    overflow: hidden;
+}
+
+.title {
     position: relative;
-    left: 1000px;
-    width: 250px;
-    height: 150px;
-    margin-bottom: 10px;
-    background-color: turquoise;
-    border-radius: 20px;
-    text-align: center;
-    line-height: 150px;
+    top: -5%;
+    color: white;
+    white-space: nowrap;
+}
+
+a {
+    text-decoration: none;
+    border: 2px solid white;
+    color: white;
+    padding: 20px 50px;
+}
+
+#showBox1:hover {
+    width: 150%;
+}
+
+
+/*#showBox1:hover+#showBox2 {
+    width: 25%;
+}
+*/
+
+#showBox2:hover {
+    width: 150%;
+}
+
+
+/*#showBox2:hover+#showBox1 {
+    width: 25%;
+*/
+
+a:hover {
+    background-color: rgb(200, 221, 221);
 }

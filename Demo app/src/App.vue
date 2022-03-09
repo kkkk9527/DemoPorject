@@ -27,9 +27,9 @@ export default {
     }
   },
   mounted() {
-    let SearchData=this.$route.query;
-    this.$store.commit("Search/MERGEDATA",SearchData);    
-    this.$store.dispatch("Search/SearchInfo",SearchData);    
+    //let SearchData=this.$route.query;
+    //this.$store.commit("Search/MERGEDATA",SearchData);    
+    //this.$store.dispatch("Search/SearchInfo",SearchData);    
     this.$store.dispatch("Home/categoryList"); //调用reqCategoryList
   },
 }
