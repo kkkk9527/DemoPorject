@@ -23,11 +23,24 @@ body {
     background-color: white;
 }
 
+.hovered {
+    background-color: #333;
+    border-color: white;
+    border-style: dashed;
+}
+
 
 /* 内部图片容器 */
 
 #panel {
+    background-image: url("../img/5.jpg");
+    background-size: cover;
     position: relative;
     width: 100%;
+    cursor: pointer;
     height: 100%;
+}
+
+.hold {
+    border: solid 5px #ccc;
 }
