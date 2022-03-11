@@ -7,6 +7,8 @@ import Home from '@/page/Home/Home.vue'
 import Register from '@/page/Register.vue'
 import Login from '@/page/Login.vue'
 import Detail from '@/page/Detail'
+import AddCartSuccess from '@/page/AddCartSuccess'
+import ShopCart from '@/page/ShopCart'
 
 // 创建路由规则
 export default [
@@ -18,7 +20,7 @@ export default [
     //         footerNotShow: false
     //     }
     // },
-    {
+    { //注册组件
         path: '/Register',
         name: 'Register',
         component: Register,
@@ -26,7 +28,7 @@ export default [
             footerNotShow: true
         }
     },
-    {
+    { //登录组件
         path: '/Login',
         name: 'Login',
         component: Login,
@@ -34,7 +36,7 @@ export default [
             footerNotShow: true
         }
     },
-    {
+    { //搜索组件
         //path: '/Search/:keyword?/:categoryName?/:category1Id?/:category2Id?/:category3Id?', 
         path: '/Search',
         //path: '/Search',
@@ -44,7 +46,7 @@ export default [
             footerNotShow: false
         }
     },
-    {
+    { //主页组件
         path: '/Home',
         name: 'home',
         component: Home,
@@ -52,15 +54,7 @@ export default [
             footerNotShow: false
         }
     },
-    {
-        path: '/Home',
-        name: 'home',
-        component: Home,
-        meta: {
-            footerNotShow: false
-        }
-    },
-    {
+    { //商品详情组件
         path: '/Detail/:skuid',
         name: 'Detail',
         component: Detail,
@@ -69,6 +63,23 @@ export default [
             footerNotShow: false
         },
     },
+    { //加入购物车组件
+        path: '/addcartsuccess',
+        name: 'addcartsuccess',
+        props: true,
+        component: AddCartSuccess,
+        meta: {
+            footerNotShow: false
+        },
+    },
+    { //跳转到购物车
+        path: '/shopcart',
+        name: 'shopcart',
+        component: ShopCart,
+        meta: {
+            footerNotShow: false
+        },
+    }
 ]
 
 

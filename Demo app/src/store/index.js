@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex"
-import { reqCategoryList, reqBannerList, reqFloorList, searchInfo, getGoodsInfo } from '@/API'
+import { reqCategoryList, reqBannerList, reqFloorList, searchInfo, getGoodsInfo, addToCart, reqCardList } from '@/API'
+import { getUUID } from '@/utils/uuid_token'
 
 Vue.use(Vuex)
     /**Home组件及相关组件数据 */
@@ -138,6 +139,10 @@ const Detail = {
                 context.commit("GETGOODINFO", result.data)
             }
         },
+        //将用户选择的商品信息发送给
+        async addToCart(context, params) {
+            await addToCart(params);
+        },
     },
     mutations: {
         GETGOODINFO(state, data) {
@@ -162,7 +167,31 @@ const Detail = {
         }
     },
     state: {
-        goodInfo: {}
+        goodInfo: {},
+        uuid_token: getUUID()
+    }
+}
+
+//购物车组件仓库
+const CardList = {
+    namespaced: true,
+    actions: {
+        async getCardList() {
+            let result = await reqCardList();
+            if (result.code == 200) {
+                //context.commit("GETGOODINFO", result.data)
+                console.log(result)
+            }
+        },
+    },
+    mutations: {
+
+    },
+    getters: {
+
+    },
+    state: {
+
     }
 }
 
@@ -171,6 +200,7 @@ export default new Vuex.Store({
     modules: {
         Home,
         Search,
-        Detail
+        Detail,
+        CardList
     }
 })

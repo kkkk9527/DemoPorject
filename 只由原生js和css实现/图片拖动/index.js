@@ -48,4 +48,7 @@ function dragDrop() {
 
 
 
-/** 拖动时将源图片的样式消除能直接让其消失*/
+/** 1.拖动时将源图片的样式消除能直接让其消失
+ * 2.dragstart()，dragend(),drag()作用于源目标
+ * 3.dragover(),dragleave(),dragenter(),drop()作用于对象目标
+ */
