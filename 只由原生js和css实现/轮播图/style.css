@@ -1,0 +1,109 @@
+/* 全局样式 */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #ffff;
+}
+
+p {
+    color: #ffff;
+}
+
+
+/*  外层容器*/
+
+.panel {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+
+/* 按键 */
+
+.btn {
+    width: 2%;
+    height: 5%;
+    float: left;
+    position: absolute;
+}
+
+.btn.up {
+    border-radius: 25% 0 0 25%;
+    border: transparent;
+    top: 52.5%;
+    left: 31.333%;
+}
+
+.btn.down {
+    border-radius: 0 25% 25% 0;
+    border: transparent;
+    top: 47.5%;
+    right: 64.666%;
+}
+
+
+/* 轮播图容器 */
+
+.container {
+    height: 300vh;
+    display: flex;
+    flex-flow: column;
+    position: relative;
+    transition: all 0.3s linear;
+}
+
+.small {
+    width: 33.3333%;
+}
+
+.large {
+    width: 66.6666%;
+}
+
+
+/* 图片容器 */
+
+.imageContainer {
+    height: 100vh;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+}
+
+.upOne {
+    background-color: #FD3555;
+}
+
+.upTwo {
+    background-color: #2a86ba;
+}
+
+.upThree {
+    background-color: #252e33;
+}
+
+.downOne {
+    background-image: url('https://images.unsplash.com/photo-1519981593452-666cf05569a9?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=90ed8055f06493290dad8da9584a13f7&auto=format&fit=crop&w=715&q=80');
+}
+
+.downTwo {
+    background-image: url('https://images.unsplash.com/photo-1486899430790-61dbf6f6d98b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8ecdee5d1b3ed78ff16053b0227874a2&auto=format&fit=crop&w=1002&q=80');
+}
+
+.downThree {
+    background-image: url('https://images.unsplash.com/photo-1510942201312-84e7962f6dbb?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=da4ca7a78004349f1b63f257e50e4360&auto=format&fit=crop&w=1050&q=80');
+}

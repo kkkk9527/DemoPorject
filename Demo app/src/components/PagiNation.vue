@@ -59,16 +59,20 @@ export default {
   methods: {
     //选择页数
     choosePage(page) {
+      //若当前页数大于1且选择prev时
       if (this.pageNo > 1 && page == "prev") {
         this.choosePage(this.pageNo - 1);
+        //若当前页数小于总页数且选择next时
       } else if (this.pageNo < this.totalPages && page == "next") {
         this.choosePage(this.pageNo + 1);
       }
+      //若当前页数小于1且选择prev时
       if (page == "prev") {
         page = this.pageNo - 1;
         if (page < 1) {
           page = 1;
         }
+        //若当前页数大于总页数且选择next时
       } else if (page == "next") {
         page = this.pageNo + 1;
         if (page > this.totalPages) {
