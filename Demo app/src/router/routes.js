@@ -4,8 +4,8 @@ Vue.use(VueRouter)
 
 import Search from '@/page/Search.vue'
 import Home from '@/page/Home/Home.vue'
-import Register from '@/page/Register.vue'
-import Login from '@/page/Login.vue'
+import Register from '@/page/Register'
+import Login from '@/page/Login'
 import Detail from '@/page/Detail'
 import AddCartSuccess from '@/page/AddCartSuccess'
 import ShopCart from '@/page/ShopCart'

@@ -32,7 +32,7 @@
     <!--头部第二行 搜索区域-->
     <div class="bottom">
       <h1 class="logoArea">
-        <a class="logo" title="尚品汇" href="###" target="_blank">
+        <a class="logo" title="尚品汇" href="#home" target="_blank">
           <img src="@/images/Logo.png" alt="" />
         </a>
       </h1>

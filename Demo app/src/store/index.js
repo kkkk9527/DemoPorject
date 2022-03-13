@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex"
-import { reqCategoryList, reqBannerList, reqFloorList, searchInfo, getGoodsInfo, addToCart, reqCardList } from '@/API'
+import { checkCart, reqCategoryList, reqBannerList, reqFloorList, searchInfo, getGoodsInfo, addToCart, reqCardList, deletCardList } from '@/API'
 import { getUUID } from '@/utils/uuid_token'
 
 Vue.use(Vuex)
@@ -139,7 +139,7 @@ const Detail = {
                 context.commit("GETGOODINFO", result.data)
             }
         },
-        //将用户选择的商品信息发送给
+        //将用户选择的商品信息发送给服务器或者修改购物车中的商品数量
         async addToCart(context, params) {
             await addToCart(params);
         },
@@ -176,22 +176,50 @@ const Detail = {
 const CardList = {
     namespaced: true,
     actions: {
-        async getCardList() {
+        // 向服务器请求购物车数据
+        async getCardList(context) {
             let result = await reqCardList();
             if (result.code == 200) {
-                //context.commit("GETGOODINFO", result.data)
-                console.log(result)
+                context.commit("GETCARDLIST", result.data)
             }
         },
+        //删除购物车中的商品
+        async deletCardList(context, id) {
+            let result = deletCardList(id);
+            if (result.code == 200) {
+                return "ok"
+            } else {
+                console.log(1)
+                return Promise.reject(new Error('faile'))
+            }
+        },
+        // 更改商品的选中状态
+        async checkCart(context, params) {
+            let result = checkCart(params);
+            if (result.code == 200) {
+                return "ok"
+            }
+        }
     },
     mutations: {
-
+        //将得到的数据添加到state中
+        GETCARDLIST(state, data) {
+            Vue.set(state, 'CardList', data)
+        }
     },
     getters: {
-
+        cartInfoList(state) {
+            return state.CardList[0].cartInfoList || [];
+        },
+        activityRuleList(state) {
+            return state.CardList[0].activityRuleList;
+        },
+        createTime(state) {
+            return state.CardList[0].createTime;
+        }
     },
     state: {
-
+        CardList: []
     }
 }
 

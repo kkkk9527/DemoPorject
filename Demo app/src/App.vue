@@ -19,7 +19,7 @@ export default {
   watch:{
     $route(){
       let query = JSON.parse(JSON.stringify(this.$route.query));
-      console.log(query);
+      //console.log(query);
       let SearchData=query;
       //this.$router.push({ name: "Search", query: query });
       this.$store.commit("Search/MERGEDATA", SearchData);
