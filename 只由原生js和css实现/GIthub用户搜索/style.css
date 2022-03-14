@@ -1,0 +1,93 @@
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        background-color: rgb(42, 42, 114);
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    /* 输入框 */
+    
+    input {
+        background-color: rgb(76, 40, 133);
+        width: 50%;
+        height: 50px;
+        padding: 0 10px;
+        outline: none;
+        border: none;
+        border-radius: 10px;
+    }
+    /* 用户卡片外层元素 */
+    
+    .userCardOuter {
+        background-color: rgb(76, 40, 133);
+        border: none;
+        border-radius: 20px;
+        margin-top: 20px;
+        width: 500px;
+        height: 250px;
+    }
+    /* 用户内层元素 */
+    
+    .innerContent {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 33.333% 66.6666%;
+    }
+    /* 头像区 */
+    
+    .userAvatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .avatar {
+        overflow: hidden;
+        background-image: url("../img/2.png");
+        background-position: center;
+        background-size: cover;
+        width: 130px;
+        height: 130px;
+        border: 10px solid rgb(42, 42, 114);
+        border-radius: 100%;
+    }
+    /* 信息显示区 */
+    
+    .userInfomation {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    
+    .userInfomation a {
+        text-decoration: none;
+        padding: 5px 8px;
+        margin-right: 5px;
+        color: white;
+        font-size: small;
+        background-color: rgb(42, 42, 114);
+    }
+    
+    .msgContent {
+        margin: 10px 0;
+        width: 100%;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: row;
+    }
+    
+    .information div {
+        width: 33.3333%;
+    }
