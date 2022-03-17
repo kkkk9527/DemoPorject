@@ -20,6 +20,16 @@ export const reqCardList = () => requests.get(`/cart/cartList`);
 export const deletCardList = (params) => requests.delete(`/cart/deleteCart/${params.skuId}`);
 //修改购物车选中状态
 export const checkCart = (params) => requests.get(`/cart/checkCart/${params.skuId}/${params.isChecked}`);
+//获取验证码
+export const getVerificationCode = (phoneNum) => requests.get(`/user/passport/sendCode/${phoneNum}`);
+// 注册新用户
+export const Register = (params) => requests.post(`/user/passport/register/`, params);
+//登录
+export const Login = (params) => requests.post(`/user/passport/login`, params);
+// 通过Token获取用户信息
+export const RequestUserInfo = () => requests.get(`/user/passport/auth/getUserInfo`);
+// 退出登录
+export const LoginOut = () => requests.get(`/user/passport/logout`);
 //请求Home轮播图地址
 export const reqBannerList = () => mockRequest.get('/banner');
 //请求floor组件轮播图地址

@@ -84,6 +84,7 @@ let searchUser = document.getElementById('searchUser');
 searchUser.addEventListener('keyup', function(event) {
     let userCardOuter = document.querySelector('.userCardOuter');
     if (event.key.toString() == 'Enter') {
+        /* 判断用户卡片中是否有内容 */
         if (userCardOuter.firstChild) {
             userCardOuter.removeChild(userCardOuter.firstChild);
         }
@@ -92,7 +93,6 @@ searchUser.addEventListener('keyup', function(event) {
         event.target.value = '';
         getUser(url).then((data) => {
             let userData = data;
-            //console.log(userData);
             getUser(rops).then((data) => {
                 let ropsData = data;
                 userCardOuter.appendChild(createUserCard(userData, ropsData));

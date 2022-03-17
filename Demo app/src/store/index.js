@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex"
-import { checkCart, reqCategoryList, reqBannerList, reqFloorList, searchInfo, getGoodsInfo, addToCart, reqCardList, deletCardList } from '@/API'
+import { LoginOut, RequestUserInfo, Login, Register, getVerificationCode, checkCart, reqCategoryList, reqBannerList, reqFloorList, searchInfo, getGoodsInfo, addToCart, reqCardList, deletCardList } from '@/API'
 import { getUUID } from '@/utils/uuid_token'
 
 Vue.use(Vuex)
@@ -174,52 +174,137 @@ const Detail = {
 
 //购物车组件仓库
 const CardList = {
+        namespaced: true,
+        actions: {
+            // 向服务器请求购物车数据
+            async getCardList(context) {
+                let result = await reqCardList();
+                if (result.code == 200) {
+                    context.commit("GETCARDLIST", result.data)
+                }
+            },
+            //删除购物车中的商品
+            async deletCardList(context, id) {
+                let result = deletCardList(id);
+                if (result.code == 200) {
+                    return "ok"
+                } else {
+                    return Promise.reject(new Error('faile'))
+                }
+            },
+            // 更改商品的选中状态
+            async checkCart(context, params) {
+                let result = checkCart(params);
+                if (result.code == 200) {
+                    return "ok"
+                }
+            }
+        },
+        mutations: {
+            //将得到的数据添加到state中
+            GETCARDLIST(state, data) {
+                Vue.set(state, 'CardList', data)
+            }
+        },
+        getters: {
+            cartInfoList(state) {
+                return state.CardList[0].cartInfoList || [];
+            },
+            activityRuleList(state) {
+                return state.CardList[0].activityRuleList;
+            },
+            createTime(state) {
+                return state.CardList[0].createTime;
+            }
+        },
+        state: {
+            CardList: []
+        }
+    }
+    //登录与注册
+const RegisterAndLogin = {
     namespaced: true,
     actions: {
-        // 向服务器请求购物车数据
-        async getCardList(context) {
-            let result = await reqCardList();
+        /* 获取验证码 */
+        async getVerificationCode(context, phoneNum) {
+            let result = await getVerificationCode(phoneNum)
             if (result.code == 200) {
-                context.commit("GETCARDLIST", result.data)
-            }
-        },
-        //删除购物车中的商品
-        async deletCardList(context, id) {
-            let result = deletCardList(id);
-            if (result.code == 200) {
-                return "ok"
+                context.commit('GETVERIFICATIONCODE', result.data)
+                return 'Ok'
             } else {
-                console.log(1)
-                return Promise.reject(new Error('faile'))
+                return new Promise.reject(new Error('error'));
             }
         },
-        // 更改商品的选中状态
-        async checkCart(context, params) {
-            let result = checkCart(params);
+        /* 注册 */
+        async Register(context, params) {
+            let result = await Register(params)
             if (result.code == 200) {
-                return "ok"
+                return 'Ok'
+            } else {
+                return new Promise.reject(new Error('error'));
+            }
+        },
+        /* 登录 */
+        async Login(context, params) {
+            let result = await Login(params)
+            if (result.code == 200) {
+                context.commit('LOGIN', result.data);
+                return 'Ok'
+            } else {
+                return Promise.reject(new Error('error'));
+            }
+        },
+        /* 使用Token获取用户数据 */
+        async RequestUserInfo(context) {
+            let result = await RequestUserInfo()
+            if (result.code == 200) {
+                context.commit('REQUESTUSERINFO', result.data);
+                return 'Ok'
+            } else {
+                return Promise.reject(new Error('error'));
+            }
+        },
+        /* 登出 */
+        async LoginOut(context) {
+            let result = await LoginOut()
+            if (result.code == 200) {
+                context.commit('LOGINOUT');
+                return 'Ok'
+            } else {
+                return Promise.reject(new Error('error'));
             }
         }
     },
     mutations: {
-        //将得到的数据添加到state中
-        GETCARDLIST(state, data) {
-            Vue.set(state, 'CardList', data)
+        GETVERIFICATIONCODE(state, data) {
+            Vue.set(state, 'verificationCode', data);
+        },
+        //清空验证码
+        CLEARVERIFICATIONCODE(state) {
+            Vue.set(state, 'verificationCode', '');
+        },
+        LOGIN(state, data) {
+            localStorage.setItem('Token', data.token);
+            Vue.set(state, 'Token', data.token);
+        },
+        REQUESTUSERINFO(state, data) {
+            Vue.set(state, 'userInfo', data)
+        },
+        LOGINOUT(state) {
+            Vue.set(state, 'Token', '');
+            Vue.set(state, 'userInfo', []);
+            localStorage.removeItem('Token')
         }
     },
     getters: {
-        cartInfoList(state) {
-            return state.CardList[0].cartInfoList || [];
-        },
-        activityRuleList(state) {
-            return state.CardList[0].activityRuleList;
-        },
-        createTime(state) {
-            return state.CardList[0].createTime;
+        userInfo(state) {
+            return state.userInfo.nickName;
         }
     },
     state: {
-        CardList: []
+        verificationCode: '',
+        Token: '',
+        userInfo: []
     }
 }
 
@@ -229,6 +314,7 @@ export default new Vuex.Store({
         Home,
         Search,
         Detail,
-        CardList
+        CardList,
+        RegisterAndLogin
     }
 })

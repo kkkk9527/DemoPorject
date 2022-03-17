@@ -1,0 +1,101 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    background-color: cyan;
+}
+
+h3 {
+    font-weight: 900;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* 爱心 */
+
+.heart {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    position: absolute;
+    transform: rotate(-135deg);
+    animation: ani 1s linear;
+    opacity: 1;
+}
+
+.heart::after,
+.heart::before {
+    content: '';
+    height: 10px;
+    width: 10px;
+    position: absolute;
+    top: 50%;
+    background-color: red;
+    border-radius: 100%;
+    /* animation: ani 2s linear; */
+}
+
+.heart::before {
+    top: 0%;
+    left: 50%;
+}
+
+
+/* 小爱心 */
+
+.littleHeart {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background-color: red;
+    position: relative;
+    transform: rotate(-135deg);
+}
+
+.littleHeart::after,
+.littleHeart::before {
+    content: '';
+    height: 10px;
+    width: 10px;
+    position: absolute;
+    top: 50%;
+    background-color: red;
+    border-radius: 100%;
+    /* animation: ani 2s linear; */
+}
+
+.littleHeart::before {
+    top: 0%;
+    left: 50%;
+}
+
+
+/* 图片展示区 */
+
+.imageShow {
+    min-width: 250px;
+    min-height: 350px;
+    position: relative;
+    background-image: url('../img/ps.jpg');
+    background-position: center;
+    background-size: cover;
+    margin: 30px 0;
+}
+
+@keyframes ani {
+    to {
+        transform: rotate(-135deg) scale(5);
+        opacity: 0;
+    }
+}

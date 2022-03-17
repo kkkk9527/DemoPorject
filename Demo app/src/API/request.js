@@ -16,6 +16,9 @@ requests.interceptors.request.use((config) => {
         //在请求头添加字段将uuid_token发送给服务器
         config.headers.userTempId = store.state.Detail.uuid_token;
     }
+    if (store.state.RegisterAndLogin.Token || localStorage.getItem('Token')) {
+        config.headers.token = store.state.RegisterAndLogin.Token || localStorage.getItem('Token');
+    }
     nprogress.start();
     return config;
 });

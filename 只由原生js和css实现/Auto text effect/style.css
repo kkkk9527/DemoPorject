@@ -1,0 +1,35 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+    background-color: palevioletred;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 3%;
+    width: 150px;
+    padding: 10px 8px;
+    background-color: rgb(209, 135, 110);
+    font-size: 20px;
+}
+
+.Num {
+    height: 30px;
+    width: 40px;
+    font-size: 20px;
+    font-weight: bolder;
+    border: none;
+    background-color: coral;
+}
