@@ -3,18 +3,22 @@
     <!-- 头部的第一行 -->
     <div class="top">
       <div class="container">
-        <div class="loginList">
+        <div class="loginList" v-show="!userInfo">
           <p>尚品汇欢迎您！</p>
           <p>
             <span>请</span>
-            <router-link :to="{
-              path:'/Login'
-            }">
-            登录
-            </router-link>
+            <router-link :to="{ path: '/Login' }">登录</router-link>
             <router-link to="/Register" class="register">免费注册</router-link>
-            <!-- <a href="###">登录</a>
-            <a href="###" class="register">免费注册</a> -->
+          </p>
+        </div>
+        <div class="loginList" v-show="userInfo">
+          <p>尚品汇欢迎您！</p>
+          <p>
+            <span>请</span>
+            <router-link :to="{ path: '/Login' }">{{ userInfo }}</router-link>
+            <a class="register" @click="loginOut">{{
+              "退出"
+            }}</a>
           </p>
         </div>
         <div class="typeList">
@@ -44,7 +48,11 @@
             class="input-error input-xxlarge"
             v-model="keyword"
           />
-          <button class="sui-btn btn-xlarge btn-danger" type="button" @click="search">
+          <button
+            class="sui-btn btn-xlarge btn-danger"
+            type="button"
+            @click="search"
+          >
             搜索
           </button>
         </form>
@@ -54,30 +62,41 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "Header",
   data() {
     return {
-      keyword:'',
-      paramsData: {}
-    }
+      keyword: "",
+      paramsData: {},
+    };
+  },
+  computed: {
+    ...mapGetters("RegisterAndLogin", ["userInfo"]),
   },
   methods: {
-    search(){
-      let local={name:'Search'};
-      let query = JSON.parse(JSON.stringify(this.$route.query));//保留原本路由中的参数
-      query.keyword=this.keyword;
-      //Object.assign(this.$route.query,query);
-      local.query=query;
+    search() {
+      let local = { name: "Search" };
+      let query = JSON.parse(JSON.stringify(this.$route.query)); //保留原本路由中的参数
+      query.keyword = this.keyword;
+      local.query = query;
       this.$store.commit("Search/MERGEDATA", query); //修改vuex中的数据
       this.$router.push(local);
-      this.$bus.$emit('addKeyWord',this.keyword)
+      this.$bus.$emit("addKeyWord", this.keyword);
       this.$store.dispatch("Search/SearchInfo");
+    },
+    // 登出
+    async loginOut(){
+      try{
+        await this.$store.dispatch('RegisterAndLogin/LoginOut');
+        this.$router.push('/home');
+      }catch(error){
+        alert(error.message);
+      }
     }
   },
-  //mounted() {
-  //    this.$bus.$emit('addKeyWord',this.keyword)
-  //  },
+  mounted() {
+  },
 };
 </script>
 
