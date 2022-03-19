@@ -26,7 +26,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch("Home/getFloorList");
-    this.$store.dispatch("RegisterAndLogin/RequestUserInfo");
   },
   components: {
     Floor,

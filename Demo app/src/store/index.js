@@ -292,7 +292,7 @@ const RegisterAndLogin = {
         },
         LOGINOUT(state) {
             Vue.set(state, 'Token', '');
-            Vue.set(state, 'userInfo', []);
+            Vue.set(state, 'userInfo', {});
             localStorage.removeItem('Token')
         }
     },
@@ -304,7 +304,7 @@ const RegisterAndLogin = {
     state: {
         verificationCode: '',
         Token: '',
-        userInfo: []
+        userInfo: {}
     }
 }
 

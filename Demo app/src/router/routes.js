@@ -10,6 +10,7 @@ import Detail from '@/page/Detail'
 import AddCartSuccess from '@/page/AddCartSuccess'
 import ShopCart from '@/page/ShopCart'
 
+
 // 创建路由规则
 export default [
     //{
@@ -47,7 +48,7 @@ export default [
         }
     },
     { //主页组件
-        path: '/Home',
+        path: '/home',
         name: 'home',
         component: Home,
         meta: {
