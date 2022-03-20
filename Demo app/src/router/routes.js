@@ -9,6 +9,7 @@ import Login from '@/page/Login'
 import Detail from '@/page/Detail'
 import AddCartSuccess from '@/page/AddCartSuccess'
 import ShopCart from '@/page/ShopCart'
+import Trade from '@/page/OrderAndPay/Trade'
 
 
 // 创建路由规则
@@ -77,6 +78,14 @@ export default [
         path: '/shopcart',
         name: 'shopcart',
         component: ShopCart,
+        meta: {
+            footerNotShow: false
+        },
+    },
+    {
+        path: '/trade',
+        name: 'trade',
+        component: Trade,
         meta: {
             footerNotShow: false
         },

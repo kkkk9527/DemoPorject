@@ -23,12 +23,13 @@ let router = new VueRouter({
 router.beforeEach(async(to, from, next) => {
     // to and from are both route objects. must call `next`.
     let name = store.state.RegisterAndLogin.userInfo.name;
+    /* 判断是否有用户信息 */
     if (name) {
         if (to.path == '/Login') {
             next('/home')
         }
     } else {
-        if (localStorage.getItem('Token')) {
+        if (localStorage.getItem('Token') || sessionStorage.getItem('Token')) {
             try {
                 await store.dispatch('RegisterAndLogin/RequestUserInfo');
                 next();

@@ -30,6 +30,8 @@ export const Login = (params) => requests.post(`/user/passport/login`, params);
 export const RequestUserInfo = () => requests.get(`/user/passport/auth/getUserInfo`);
 // 退出登录
 export const LoginOut = () => requests.get(`/user/passport/logout`);
+/* 获取用户地址 */
+export const GetUserAddress = () => requests.get(`user/userAddress/auth/findUserAddressList`);
 //请求Home轮播图地址
 export const reqBannerList = () => mockRequest.get('/banner');
 //请求floor组件轮播图地址

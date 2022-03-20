@@ -29,7 +29,7 @@
               </div>
               <div class="setting clearFix">
                 <label class="checkbox inline">
-                  <input name="m1" type="checkbox" value="2" checked="" />
+                  <input name="m1" type="checkbox" value="2" v-model="checked" />
                   自动登录
                 </label>
                 <span class="forget">忘记密码？</span>
@@ -79,15 +79,17 @@ export default {
     return {
       userLogin: "",
       userPwd: "",
+      checked:false
     };
   },
   methods: {
     async Login() {
       try {
-        const { userLogin, userPwd } = this;
+        const { userLogin, userPwd ,checked} = this;
         await this.$store.dispatch("RegisterAndLogin/Login", {
           phone: userLogin,
           password: userPwd,
+          checked:checked
         });
         this.$router.push("home");
       } catch (error) {

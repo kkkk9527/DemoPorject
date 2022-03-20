@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex"
-import { LoginOut, RequestUserInfo, Login, Register, getVerificationCode, checkCart, reqCategoryList, reqBannerList, reqFloorList, searchInfo, getGoodsInfo, addToCart, reqCardList, deletCardList } from '@/API'
+import { GetUserAddress, LoginOut, RequestUserInfo, Login, Register, getVerificationCode, checkCart, reqCategoryList, reqBannerList, reqFloorList, searchInfo, getGoodsInfo, addToCart, reqCardList, deletCardList } from '@/API'
 import { getUUID } from '@/utils/uuid_token'
 
 Vue.use(Vuex)
@@ -246,9 +246,13 @@ const RegisterAndLogin = {
         },
         /* 登录 */
         async Login(context, params) {
-            let result = await Login(params)
+            console.log(params);
+            let result = await Login({ phone: params.phone, password: params.password })
             if (result.code == 200) {
                 context.commit('LOGIN', result.data);
+                if (params.checked) {
+                    context.commit("SETTOKENTOLOCAL");
+                }
                 return 'Ok'
             } else {
                 return Promise.reject(new Error('error'));
@@ -283,28 +287,72 @@ const RegisterAndLogin = {
         CLEARVERIFICATIONCODE(state) {
             Vue.set(state, 'verificationCode', '');
         },
+        /* 非自动登录 */
         LOGIN(state, data) {
-            localStorage.setItem('Token', data.token);
             Vue.set(state, 'Token', data.token);
+            sessionStorage.setItem('Token', data.token)
+        },
+        /* 自动登录 */
+        SETTOKENTOLOCAL(state) {
+            localStorage.setItem('Token', state.Token);
         },
         REQUESTUSERINFO(state, data) {
             Vue.set(state, 'userInfo', data)
         },
+        /* 清空用户数据 */
         LOGINOUT(state) {
             Vue.set(state, 'Token', '');
             Vue.set(state, 'userInfo', {});
-            localStorage.removeItem('Token')
+            localStorage.removeItem('Token');
+            sessionStorage.removeItem('Token');
         }
     },
     getters: {
         userInfo(state) {
-            return state.userInfo.nickName;
+            return state.userInfo.nickName || '';
         }
     },
     state: {
         verificationCode: '',
         Token: '',
         userInfo: {}
+    }
+}
+
+const OrderAndPay = {
+    namespaced: true,
+    actions: {
+        async getUserAddressAndCartList(context) {
+            let result = await GetUserAddress();
+            let cartList = await reqCardList();
+            if (result.code == 200 && cartList.code == 200) {
+                context.commit('GETUSERADDRESS', result.data);
+                context.commit('REQCARTLIST', cartList.data);
+                return 'Ok'
+            } else {
+                return new Promise.reject(new Error('error'));
+            }
+        }
+    },
+    mutations: {
+        GETUSERADDRESS(state, data) {
+            Vue.set(state, 'userAddress', data);
+        },
+        REQCARTLIST(state, data) {
+            Vue.set(state, 'userCartList', data);
+        }
+    },
+    getters: {
+        userAddress(state) {
+            return state.userAddress || [];
+        },
+        userCartList(state) {
+            return state.userCartList || [];
+        }
+    },
+    state: {
+        userAddress: [], //用户地址
+        userCartList: [] //购物车详情
     }
 }
 
@@ -315,6 +363,7 @@ export default new Vuex.Store({
         Search,
         Detail,
         CardList,
-        RegisterAndLogin
+        RegisterAndLogin,
+        OrderAndPay
     }
 })
