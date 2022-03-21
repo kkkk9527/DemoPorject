@@ -347,7 +347,7 @@ const OrderAndPay = {
             return state.userAddress || [];
         },
         userCartList(state) {
-            return state.userCartList || [];
+            return state.userCartList[0].cartInfoList || [];
         }
     },
     state: {

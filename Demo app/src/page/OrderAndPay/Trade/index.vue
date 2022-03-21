@@ -3,11 +3,19 @@
     <h3 class="title">填写并核对订单信息</h3>
     <div class="content">
       <h5 class="receive">收件人信息</h5>
-      <div class="address clearFix" v-for="UserAddress in userAddress" :key="UserAddress.id">
-        <span class="username" :class="{selected:UserAddress.isDefault!=0}">{{UserAddress.consignee}}</span>
+      <div
+        class="address clearFix"
+        v-for="UserAddress in userAddress"
+        :key="UserAddress.id"
+      >
+        <span
+          class="username"
+          :class="{ selected: UserAddress.isDefault != 0 }"
+          >{{ UserAddress.consignee }}</span
+        >
         <p>
-          <span class="s1">{{UserAddress.fullAddress}}</span>
-          <span class="s2">{{UserAddress.phoneNum}}</span>
+          <span class="s1">{{ UserAddress.fullAddress }}</span>
+          <span class="s2">{{ UserAddress.phoneNum }}</span>
           <span class="s3">默认地址</span>
         </p>
       </div>
@@ -28,20 +36,24 @@
       </div>
       <div class="detail">
         <h5>商品清单</h5>
-        <ul class="list clearFix" v-for="(userCart,index) in userCartList" :key='index'>
+        <ul
+          class="list clearFix"
+          v-for="(userCart, index) in userCartList"
+          :key="index"
+        >
           <li>
-            <img :src="userCart.cartInfoList[0].imgUrl" alt="" />
+            <img :src="userCart.imgUrl" />
           </li>
           <li>
             <p>
-              {{userCart.cartInfoList[0].skuName}}
+              {{ userCart.skuName }}
             </p>
             <h4>7天无理由退货</h4>
           </li>
           <li>
-            <h3>￥{{userCart.cartInfoList[0].cartPrice}}</h3>
+            <h3>￥{{ userCart.cartPrice }}</h3>
           </li>
-          <li>X{{userCart.cartInfoList[0].skuNum}}</li>
+          <li>X{{ userCart.skuNum }}</li>
           <li>有货</li>
         </ul>
       </div>
@@ -62,8 +74,11 @@
     <div class="money clearFix">
       <ul>
         <li>
-          <b><i>1</i>件商品，总商品金额</b>
-          <span>¥5399.00</span>
+          <b
+            ><i>{{ userCartList.length }}</i
+            >件商品，总商品金额</b
+          >
+          <span>¥{{ totalMoney }}</span>
         </li>
         <li>
           <b>返现：</b>
@@ -76,7 +91,9 @@
       </ul>
     </div>
     <div class="trade">
-      <div class="price">应付金额:<span>¥5399.00</span></div>
+      <div class="price">
+        应付金额:<span>¥{{ totalMoney }}</span>
+      </div>
       <div class="receiveInfo">
         寄送至:
         <span>北京市昌平区宏福科技园综合楼6层</span>
@@ -94,8 +111,15 @@
 import { mapGetters } from "vuex";
 export default {
   name: "Trade",
-  computed:{
-    ...mapGetters('OrderAndPay',['userAddress','userCartList'])
+  computed: {
+    ...mapGetters("OrderAndPay", ["userAddress", "userCartList"]),
+    totalMoney() {
+      let total = 0;
+      this.userCartList.forEach((good) => {
+        total += good.skuPrice * good.skuNum;
+      });
+      return total;
+    },
   },
   mounted() {
     this.$store.dispatch("OrderAndPay/getUserAddressAndCartList");
@@ -245,6 +269,10 @@ export default {
 
         li {
           line-height: 30px;
+          img {
+            width: 50px;
+            height: 50px;
+          }
 
           p {
             margin-bottom: 20px;
