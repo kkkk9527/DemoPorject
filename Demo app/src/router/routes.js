@@ -10,6 +10,7 @@ import Detail from '@/page/Detail'
 import AddCartSuccess from '@/page/AddCartSuccess'
 import ShopCart from '@/page/ShopCart'
 import Trade from '@/page/OrderAndPay/Trade'
+import Pay from '@/page/OrderAndPay/Pay'
 
 
 // 创建路由规则
@@ -82,10 +83,18 @@ export default [
             footerNotShow: false
         },
     },
-    {
+    { //确认商品页面
         path: '/trade',
         name: 'trade',
         component: Trade,
+        meta: {
+            footerNotShow: false
+        },
+    },
+    { //支付页面
+        path: '/pay',
+        name: 'pay',
+        component: Pay,
         meta: {
             footerNotShow: false
         },

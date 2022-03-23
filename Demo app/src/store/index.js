@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex"
-import { GetUserAddress, LoginOut, RequestUserInfo, Login, Register, getVerificationCode, checkCart, reqCategoryList, reqBannerList, reqFloorList, searchInfo, getGoodsInfo, addToCart, reqCardList, deletCardList } from '@/API'
+import { submitTrade, GetUserTrade, GetUserAddress, LoginOut, RequestUserInfo, Login, Register, getVerificationCode, checkCart, reqCategoryList, reqBannerList, reqFloorList, searchInfo, getGoodsInfo, addToCart, reqCardList, deletCardList } from '@/API'
 import { getUUID } from '@/utils/uuid_token'
 
 Vue.use(Vuex)
@@ -322,9 +322,10 @@ const RegisterAndLogin = {
 const OrderAndPay = {
     namespaced: true,
     actions: {
+        /* 获取客户订单信息 */
         async getUserAddressAndCartList(context) {
             let result = await GetUserAddress();
-            let cartList = await reqCardList();
+            let cartList = await GetUserTrade();
             if (result.code == 200 && cartList.code == 200) {
                 context.commit('GETUSERADDRESS', result.data);
                 context.commit('REQCARTLIST', cartList.data);
@@ -332,7 +333,17 @@ const OrderAndPay = {
             } else {
                 return new Promise.reject(new Error('error'));
             }
-        }
+        },
+        /* 提交订单 */
+        async SubmitTrade(context, params) {
+            let result = await submitTrade(params.submitData, params.tradeNo);
+            if (result.code == 200) {
+                //context.commit('GETUSERADDRESS', result.data);
+                return 'Ok'
+            } else {
+                return new Promise.reject(new Error('error'));
+            }
+        },
     },
     mutations: {
         GETUSERADDRESS(state, data) {
@@ -347,12 +358,15 @@ const OrderAndPay = {
             return state.userAddress || [];
         },
         userCartList(state) {
-            return state.userCartList[0].cartInfoList || [];
+            return state.userCartList.detailArrayList || [];
+        },
+        TradeNo(state) {
+            return state.userCartList.tradeNo || '';
         }
     },
     state: {
         userAddress: [], //用户地址
-        userCartList: [] //购物车详情
+        userCartList: {} //购物车详情
     }
 }
 

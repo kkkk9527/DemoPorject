@@ -11,19 +11,31 @@
         <span
           class="username"
           :class="{ selected: UserAddress.isDefault != 0 }"
+          @click="chooseAddress(UserAddress, userAddress)"
           >{{ UserAddress.consignee }}</span
         >
         <p>
           <span class="s1">{{ UserAddress.fullAddress }}</span>
           <span class="s2">{{ UserAddress.phoneNum }}</span>
-          <span class="s3">默认地址</span>
+          <span class="s3" v-show="UserAddress.isDefault != 0">默认地址</span>
         </p>
       </div>
       <div class="line"></div>
       <h5 class="pay">支付方式</h5>
       <div class="address clearFix">
-        <span class="username selected">在线支付</span>
-        <span class="username" style="margin-left: 5px">货到付款</span>
+        <span
+          class="username"
+          :class="{ selected: flag == 0 }"
+          @click="changeFlag"
+          >在线支付</span
+        >
+        <span
+          class="username"
+          :class="{ selected: flag != 0 }"
+          style="margin-left: 5px"
+          @click="changeFlag"
+          >货到付款</span
+        >
       </div>
       <div class="line"></div>
       <h5 class="pay">送货清单</h5>
@@ -51,7 +63,7 @@
             <h4>7天无理由退货</h4>
           </li>
           <li>
-            <h3>￥{{ userCart.cartPrice }}</h3>
+            <h3>￥{{ userCart.orderPrice }}</h3>
           </li>
           <li>X{{ userCart.skuNum }}</li>
           <li>有货</li>
@@ -96,13 +108,13 @@
       </div>
       <div class="receiveInfo">
         寄送至:
-        <span>北京市昌平区宏福科技园综合楼6层</span>
-        收货人：<span>张三</span>
-        <span>15010658793</span>
+        <span>{{ address.fullAddress }}</span>
+        收货人：<span>{{ address.consignee }}</span>
+        <span>{{ address.phoneNum }}</span>
       </div>
     </div>
     <div class="sub clearFix">
-      <router-link class="subBtn" to="/pay">提交订单</router-link>
+      <a class="subBtn" @click="submit">提交订单</a>
     </div>
   </div>
 </template>
@@ -111,14 +123,61 @@
 import { mapGetters } from "vuex";
 export default {
   name: "Trade",
+  data() {
+    return {
+      userMessage: "",
+      flag: 0,
+    };
+  },
   computed: {
-    ...mapGetters("OrderAndPay", ["userAddress", "userCartList"]),
+    ...mapGetters("OrderAndPay", ["userAddress", "userCartList", "TradeNo"]),
+    /* 计算总金额 */
     totalMoney() {
       let total = 0;
       this.userCartList.forEach((good) => {
-        total += good.skuPrice * good.skuNum;
+        total += good.orderPrice * good.skuNum;
       });
       return total;
+    },
+    address() {
+      return this.userAddress.find((item) => {
+        return item.isDefault == "1";
+      });
+    },
+    /* 提交订单所需的数据 */
+    submitData() {
+      return {
+        consignee: this.address.consignee, //收件人姓名
+        consigneeTel: this.address.phoneNum, //收件人电话
+        deliveryAddress: this.address.fullAddress, //收件地址
+        paymentWay: "ONLINE", //支付方式
+        orderComment: 'xxx', //订单备注
+        orderDetailList: this.userCartList, //存储多个商品对象的数组
+      };
+    },
+    tradeNo() {
+      return this.TradeNo;
+    },
+  },
+  methods: {
+    /* 选择客户地址 */
+    chooseAddress(UserAddress, userAddress) {
+      userAddress.forEach((address) => {
+        address.isDefault = 0;
+      });
+      UserAddress.isDefault = 1;
+    },
+    changeFlag() {
+      this.flag = this.flag == 0 ? 1 : 0;
+    },
+    /* 提交订单 */
+    async submit() {
+      let params = {
+        tradeNo: this.tradeNo,
+        submitData: this.submitData,
+      };
+      await this.$store.dispatch("OrderAndPay/SubmitTrade", params);
+      this.$router.push('/pay');
     },
   },
   mounted() {

@@ -32,6 +32,10 @@ export const RequestUserInfo = () => requests.get(`/user/passport/auth/getUserIn
 export const LoginOut = () => requests.get(`/user/passport/logout`);
 /* 获取用户地址 */
 export const GetUserAddress = () => requests.get(`user/userAddress/auth/findUserAddressList`);
+/* 获取用户订单信息 */
+export const GetUserTrade = () => requests.get(`/order/auth/trade`);
+/* 提交订单 */
+export const submitTrade = (params, tradeNo) => requests.post(`/order/auth/submitOrder?tradeNo=${tradeNo}`, params);
 //请求Home轮播图地址
 export const reqBannerList = () => mockRequest.get('/banner');
 //请求floor组件轮播图地址
