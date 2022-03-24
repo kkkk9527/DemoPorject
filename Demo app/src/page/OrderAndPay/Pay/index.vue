@@ -74,9 +74,7 @@
         <div class="hr"></div>
 
         <div class="submit">
-          <a class="btn"
-            ><el-button type="text" @click="open">立即支付</el-button></a
-          >
+          <a class="btn" @click="open">立即支付</a>
         </div>
         <div class="otherpay">
           <div class="step-tit">
@@ -108,14 +106,14 @@ export default {
     },
     async open() {
       //let Url = await QRCode.toDataURL(this.payWay.codeUrl);
-      let Url = await QRCode.toDataURL('iuyagso');
+      let Url = await QRCode.toDataURL("iuyagso");
       this.$alert(`<img src=${Url} />`, "11111", {
         dangerouslyUseHTMLString: true,
-        center:true,
-        showConfirmButton:true,
-        showCancelButton:true,
-        confirmButtonText:'已支付',
-        cancelButtonText:'支付遇到问题'
+        center: true,
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "已支付",
+        cancelButtonText: "支付遇到问题",
       });
     },
   },
