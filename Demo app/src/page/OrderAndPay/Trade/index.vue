@@ -142,7 +142,7 @@ export default {
     address() {
       return this.userAddress.find((item) => {
         return item.isDefault == "1";
-      });
+      })||[];
     },
     /* 提交订单所需的数据 */
     submitData() {
@@ -181,6 +181,7 @@ export default {
     },
   },
   mounted() {
+    /* 获取用户地址和订单信息 */
     this.$store.dispatch("OrderAndPay/getUserAddressAndCartList");
   },
 };

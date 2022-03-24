@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex"
-import { submitTrade, GetUserTrade, GetUserAddress, LoginOut, RequestUserInfo, Login, Register, getVerificationCode, checkCart, reqCategoryList, reqBannerList, reqFloorList, searchInfo, getGoodsInfo, addToCart, reqCardList, deletCardList } from '@/API'
+import { createNative, submitTrade, GetUserTrade, GetUserAddress, LoginOut, RequestUserInfo, Login, Register, getVerificationCode, checkCart, reqCategoryList, reqBannerList, reqFloorList, searchInfo, getGoodsInfo, addToCart, reqCardList, deletCardList } from '@/API'
 import { getUUID } from '@/utils/uuid_token'
 
 Vue.use(Vuex)
@@ -331,17 +331,26 @@ const OrderAndPay = {
                 context.commit('REQCARTLIST', cartList.data);
                 return 'Ok'
             } else {
-                return new Promise.reject(new Error('error'));
+                return Promise.reject(new Error('error'));
             }
         },
         /* 提交订单 */
         async SubmitTrade(context, params) {
             let result = await submitTrade(params.submitData, params.tradeNo);
             if (result.code == 200) {
-                //context.commit('GETUSERADDRESS', result.data);
+                context.commit('SUBMITTRADE', result.data);
                 return 'Ok'
             } else {
-                return new Promise.reject(new Error('error'));
+                return Promise.reject(new Error('error'));
+            }
+        },
+        async CreateNative(context, param) {
+            let result = await createNative(param);
+            if (result.code == 200) {
+                context.commit('CREATENATIVE', result.data);
+                return 'Ok'
+            } else {
+                return Promise.reject(new Error('error'));
             }
         },
     },
@@ -351,6 +360,12 @@ const OrderAndPay = {
         },
         REQCARTLIST(state, data) {
             Vue.set(state, 'userCartList', data);
+        },
+        SUBMITTRADE(state, data) {
+            Vue.set(state, 'orderId', data)
+        },
+        CREATENATIVE(state, data) {
+            Vue.set(state, 'payWay', data)
         }
     },
     getters: {
@@ -362,11 +377,13 @@ const OrderAndPay = {
         },
         TradeNo(state) {
             return state.userCartList.tradeNo || '';
-        }
+        },
     },
     state: {
         userAddress: [], //用户地址
-        userCartList: {} //购物车详情
+        userCartList: {}, //购物车详情
+        orderId: '',
+        payWay: {}
     }
 }
 

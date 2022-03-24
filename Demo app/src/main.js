@@ -9,11 +9,16 @@ import './mock/mockserver.js'
 //import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css/swiper.css'
 import PagiNation from '@/components/PagiNation';
+import { MessageBox, Button } from 'element-ui'
 
 Vue.config.productionTip = false;
 Vue.component(Nav.name, Nav);
 Vue.component(Carsousel.name, Carsousel)
 Vue.component(PagiNation.name, PagiNation)
+Vue.component(MessageBox.name, MessageBox)
+Vue.component(Button.name, Button)
+Vue.prototype.$alert = MessageBox.alert;
+Vue.prototype.$msgbox = MessageBox;
 reqCategoryList();
 
 new Vue({

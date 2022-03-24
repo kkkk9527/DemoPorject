@@ -36,6 +36,8 @@ export const GetUserAddress = () => requests.get(`user/userAddress/auth/findUser
 export const GetUserTrade = () => requests.get(`/order/auth/trade`);
 /* 提交订单 */
 export const submitTrade = (params, tradeNo) => requests.post(`/order/auth/submitOrder?tradeNo=${tradeNo}`, params);
+/* 获取订单支付信息 */
+export const createNative = (orderId) => requests.get(`/payment/weixin/createNative/${orderId}`);
 //请求Home轮播图地址
 export const reqBannerList = () => mockRequest.get('/banner');
 //请求floor组件轮播图地址
