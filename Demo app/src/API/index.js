@@ -38,6 +38,10 @@ export const GetUserTrade = () => requests.get(`/order/auth/trade`);
 export const submitTrade = (params, tradeNo) => requests.post(`/order/auth/submitOrder?tradeNo=${tradeNo}`, params);
 /* 获取订单支付信息 */
 export const createNative = (orderId) => requests.get(`/payment/weixin/createNative/${orderId}`);
+/* 查询订单支付状态 */
+export const queryPayStatus = (orderId) => requests.get(`/payment/weixin/queryPayStatus/${orderId}`);
+/* 获取我的订单信息 */
+export const getMyOrder = (page, limit) => requests.get(`/order/auth/${page}/${limit}`);
 //请求Home轮播图地址
 export const reqBannerList = () => mockRequest.get('/banner');
 //请求floor组件轮播图地址

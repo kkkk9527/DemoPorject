@@ -79,12 +79,16 @@ export default {
           page = this.totalPages;
         }
       }
-      let SearchData = { pageNo: page }; //获取当前页数
-      let query = JSON.parse(JSON.stringify(this.$route.query));
-      query.pageNo = page;
-      this.$router.push({ name: "Search", query: query });
-      this.$store.commit("Search/MERGEDATA", SearchData);
-      this.$store.dispatch("Search/SearchInfo");
+      if (this.$route.path == "/center/myorder") {
+        this.$store.dispatch("OrderAndPay/GetMyOrder", { page, limit: 3 });
+      } else {
+        let SearchData = { pageNo: page }; //获取当前页数
+        let query = JSON.parse(JSON.stringify(this.$route.query));
+        query.pageNo = page;
+        this.$router.push({ name: "Search", query: query });
+        this.$store.commit("Search/MERGEDATA", SearchData);
+        this.$store.dispatch("Search/SearchInfo");
+      }
     },
   },
 };

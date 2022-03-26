@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex"
-import { createNative, submitTrade, GetUserTrade, GetUserAddress, LoginOut, RequestUserInfo, Login, Register, getVerificationCode, checkCart, reqCategoryList, reqBannerList, reqFloorList, searchInfo, getGoodsInfo, addToCart, reqCardList, deletCardList } from '@/API'
+import { getMyOrder, queryPayStatus, createNative, submitTrade, GetUserTrade, GetUserAddress, LoginOut, RequestUserInfo, Login, Register, getVerificationCode, checkCart, reqCategoryList, reqBannerList, reqFloorList, searchInfo, getGoodsInfo, addToCart, reqCardList, deletCardList } from '@/API'
 import { getUUID } from '@/utils/uuid_token'
 
 Vue.use(Vuex)
@@ -139,7 +139,7 @@ const Detail = {
                 context.commit("GETGOODINFO", result.data)
             }
         },
-        //将用户选择的商品信息发送给服务器或者修改购物车中的商品数量
+        //将客户选择的商品信息发送给服务器或者修改购物车中的商品数量
         async addToCart(context, params) {
             await addToCart(params);
         },
@@ -258,7 +258,7 @@ const RegisterAndLogin = {
                 return Promise.reject(new Error('error'));
             }
         },
-        /* 使用Token获取用户数据 */
+        /* 使用Token获取客户数据 */
         async RequestUserInfo(context) {
             let result = await RequestUserInfo()
             if (result.code == 200) {
@@ -299,7 +299,7 @@ const RegisterAndLogin = {
         REQUESTUSERINFO(state, data) {
             Vue.set(state, 'userInfo', data)
         },
-        /* 清空用户数据 */
+        /* 清空客户数据 */
         LOGINOUT(state) {
             Vue.set(state, 'Token', '');
             Vue.set(state, 'userInfo', {});
@@ -353,6 +353,26 @@ const OrderAndPay = {
                 return Promise.reject(new Error('error'));
             }
         },
+        async QueryPayStatus(context, param) {
+            let result = await queryPayStatus(param);
+            console.log(result);
+            if (result.code == 200) {
+                //context.commit('CREATENATIVE', result.data);
+                return 'Ok'
+            } else {
+                return Promise.reject(new Error('error'));
+            }
+        },
+        async GetMyOrder(context, params) {
+            let result = await getMyOrder(params.page, params.limit);
+            console.log(result);
+            if (result.code == 200) {
+                context.commit('GETMYORDER', result.data);
+                return 'Ok'
+            } else {
+                return Promise.reject(new Error('error'));
+            }
+        },
     },
     mutations: {
         GETUSERADDRESS(state, data) {
@@ -366,24 +386,49 @@ const OrderAndPay = {
         },
         CREATENATIVE(state, data) {
             Vue.set(state, 'payWay', data)
+        },
+        GETMYORDER(state, data) {
+            Vue.set(state, 'myOrder', data)
         }
     },
     getters: {
+        /* 客户地址 */
         userAddress(state) {
             return state.userAddress || [];
         },
+        /* 客户订单信息 */
         userCartList(state) {
             return state.userCartList.detailArrayList || [];
         },
+        /* 订单编号 */
         TradeNo(state) {
             return state.userCartList.tradeNo || '';
         },
+        /* 客户历史订单 */
+        myOrderList(state) {
+            return state.myOrder.records || [];
+        },
+        /* 客户历史订单记录当前页数 */
+        nowPage(state) {
+            return state.myOrder.current || '';
+        },
+        /* 客户历史订单总页数 */
+        totalPage(state) {
+            return state.myOrder.pages || '';
+        },
+        pageSize(state) {
+            return state.myOrder.size || '';
+        },
+        total(state) {
+            return state.myOrder.total || '';
+        },
     },
     state: {
-        userAddress: [], //用户地址
+        userAddress: [], //客户地址
         userCartList: {}, //购物车详情
         orderId: '',
-        payWay: {}
+        payWay: {},
+        myOrder: {}
     }
 }
 

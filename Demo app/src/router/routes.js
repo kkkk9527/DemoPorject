@@ -11,18 +11,16 @@ import AddCartSuccess from '@/page/AddCartSuccess'
 import ShopCart from '@/page/ShopCart'
 import Trade from '@/page/OrderAndPay/Trade'
 import Pay from '@/page/OrderAndPay/Pay'
+import PaySuccess from '@/page/OrderAndPay/PaySuccess'
+import Center from '@/page/OrderAndPay/Center'
+import MyOrder from '@/page/OrderAndPay/Center/MyOrder/myOrder.vue'
 
 
 // 创建路由规则
-export default [
-    //{
-    //     path: '/Header',
-    //     name:''
-    //     component: Header,
-    //     meta: {
-    //         footerNotShow: false
-    //     }
-    // },
+export default [{
+        path: '/',
+        redirect: '/home'
+    },
     { //注册组件
         path: '/Register',
         name: 'Register',
@@ -98,7 +96,29 @@ export default [
         meta: {
             footerNotShow: false
         },
-    }
+    },
+    { //支付成功页面
+        path: '/paysuccess',
+        name: 'paysuccess',
+        component: PaySuccess,
+        meta: {
+            footerNotShow: false
+        },
+    },
+    { //个人中心
+        path: '/center',
+        name: 'center',
+        redirect: '/center/myorder',
+        component: Center,
+        children: [{
+            path: 'myorder',
+            name: 'myorder',
+            component: MyOrder
+        }],
+        meta: {
+            footerNotShow: false
+        },
+    },
 ]
 
 

@@ -96,6 +96,11 @@ import { mapState } from "vuex";
 import QRCode from "qrcode";
 export default {
   name: "Pay",
+  data() {
+    return {
+      timer: null,
+    };
+  },
   computed: {
     ...mapState("OrderAndPay", ["orderId", "payWay"]),
   },
@@ -104,9 +109,21 @@ export default {
     async createNative() {
       await this.$store.dispatch("OrderAndPay/CreateNative", this.orderId);
     },
+    /* 向服务器请求交易情况，如果已支付就跳转到支付成功页面 */
     async open() {
-      //let Url = await QRCode.toDataURL(this.payWay.codeUrl);
-      let Url = await QRCode.toDataURL("iuyagso");
+      if (this.timer == null) {
+        this.timer = setInterval(async () => {
+          await this.$store.dispatch(
+            "OrderAndPay/QueryPayStatus",
+            this.payWay.orderId
+          );
+          clearInterval(this.timer);
+          this.$msgbox.close();
+          this.$router.push("/paysuccess");
+        }, 1000);
+      }
+      /* 生成并显示付款二维码 */
+      let Url = await QRCode.toDataURL(this.payWay.codeUrl);
       this.$alert(`<img src=${Url} />`, "11111", {
         dangerouslyUseHTMLString: true,
         center: true,
@@ -114,6 +131,17 @@ export default {
         showCancelButton: true,
         confirmButtonText: "已支付",
         cancelButtonText: "支付遇到问题",
+        beforeClose: (action, instance, done) => {
+          if (action == "cancel") {
+            alert("请联系...联系个锤子");
+            clearInterval(this.timer);
+            done();
+          }else{
+            clearInterval(this.timer);
+            done();
+            this.$router.push('/paysuccess')
+          }
+        },
       });
     },
   },
