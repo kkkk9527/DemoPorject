@@ -2,18 +2,21 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
-import Search from '@/page/Search.vue'
-import Home from '@/page/Home/Home.vue'
-import Register from '@/page/Register'
-import Login from '@/page/Login'
-import Detail from '@/page/Detail'
-import AddCartSuccess from '@/page/AddCartSuccess'
-import ShopCart from '@/page/ShopCart'
-import Trade from '@/page/OrderAndPay/Trade'
-import Pay from '@/page/OrderAndPay/Pay'
-import PaySuccess from '@/page/OrderAndPay/PaySuccess'
-import Center from '@/page/OrderAndPay/Center'
-import MyOrder from '@/page/OrderAndPay/Center/MyOrder/myOrder.vue'
+const Search = () =>
+    import ('@/page/Search.vue')
+const Home = () =>
+    import ('@/page/Home/Home.vue')
+    //const Register = () =>
+    //import ('@/page/Register')
+    // import Login from '@/page/Login'
+    // import Detail from '@/page/Detail'
+    // import AddCartSuccess from '@/page/AddCartSuccess'
+    // import ShopCart from '@/page/ShopCart'
+    // import Trade from '@/page/OrderAndPay/Trade'
+    // import Pay from '@/page/OrderAndPay/Pay'
+    // import PaySuccess from '@/page/OrderAndPay/PaySuccess'
+    // import Center from '@/page/OrderAndPay/Center'
+    // import MyOrder from '@/page/OrderAndPay/Center/MyOrder/myOrder.vue'
 
 
 // 创建路由规则
@@ -24,7 +27,8 @@ export default [{
     { //注册组件
         path: '/Register',
         name: 'Register',
-        component: Register,
+        component: () =>
+            import ('@/page/Register'),
         meta: {
             footerNotShow: true
         }
@@ -32,7 +36,8 @@ export default [{
     { //登录组件
         path: '/Login',
         name: 'Login',
-        component: Login,
+        component: () =>
+            import ('@/page/Login'),
         meta: {
             footerNotShow: true
         }
@@ -58,7 +63,8 @@ export default [{
     { //商品详情组件
         path: '/Detail/:skuid',
         name: 'Detail',
-        component: Detail,
+        component: () =>
+            import ('@/page/Detail'),
         props: true,
         meta: {
             footerNotShow: false
@@ -68,7 +74,8 @@ export default [{
         path: '/addcartsuccess',
         name: 'addcartsuccess',
         props: true,
-        component: AddCartSuccess,
+        component: () =>
+            import ('@/page/AddCartSuccess'),
         meta: {
             footerNotShow: false
         },
@@ -76,7 +83,8 @@ export default [{
     { //跳转到购物车
         path: '/shopcart',
         name: 'shopcart',
-        component: ShopCart,
+        component: () =>
+            import ('@/page/ShopCart'),
         meta: {
             footerNotShow: false
         },
@@ -84,7 +92,8 @@ export default [{
     { //确认商品页面
         path: '/trade',
         name: 'trade',
-        component: Trade,
+        component: () =>
+            import ('@/page/OrderAndPay/Trade'),
         meta: {
             footerNotShow: false
         },
@@ -92,7 +101,8 @@ export default [{
     { //支付页面
         path: '/pay',
         name: 'pay',
-        component: Pay,
+        component: () =>
+            import ('@/page/OrderAndPay/Pay'),
         beforeEnter(from, next) {
             if (from.path == '/trade') {
                 next();
@@ -105,7 +115,8 @@ export default [{
     { //支付成功页面
         path: '/paysuccess',
         name: 'paysuccess',
-        component: PaySuccess,
+        component: () =>
+            import ('@/page/OrderAndPay/PaySuccess'),
         meta: {
             footerNotShow: false
         },
@@ -114,7 +125,8 @@ export default [{
         path: '/center',
         name: 'center',
         redirect: '/center/myorder',
-        component: Center,
+        component: () =>
+            import ('@/page/OrderAndPay/Center'),
         beforeEnter: (to, from, next) => {
             if (localStorage.getItem('Token')) {
                 next();
@@ -126,7 +138,8 @@ export default [{
         children: [{
             path: 'myorder',
             name: 'myorder',
-            component: MyOrder
+            component: () =>
+                import ('@/page/OrderAndPay/Center/MyOrder/myOrder.vue'),
         }],
         meta: {
             footerNotShow: false
