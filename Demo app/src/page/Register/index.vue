@@ -10,8 +10,15 @@
       </h3>
       <div class="content">
         <label>手机号:</label>
-        <input type="text" placeholder="请输入你的手机号" v-model="phoneNum" />
-        <span class="error-msg">错误提示信息</span>
+        <input
+          type="text"
+          placeholder="请输入你的手机号"
+          name="phone"
+          v-validate="{ required: true, regex: /^1\d{10}$/ }"
+          :class="{ invalid: errors.has(`phone`) }"
+          v-model="phoneNum"
+        />
+        <span class="error-msg">{{ errors.first("phone") }}</span>
       </div>
       <div class="content">
         <label>验证码:</label>
@@ -19,12 +26,14 @@
           type="text"
           placeholder="请输入验证码"
           v-model="verificationCode"
+          name="code"
+          v-validate="{ required: true, regex: /^\d{6}$/ }"
+          :class="{ invalid: errors.has(`code`) }"
         />
-        <!-- <img ref="code" src="http://182.92.128.115/api/user/passport/code" alt="code"> -->
         <button class="getcode" @click="getVerificationCode(phoneNum)">
           获取验证码
         </button>
-        <span class="error-msg">错误提示信息</span>
+        <span class="error-msg">{{ errors.first("code") }}</span>
       </div>
       <div class="content">
         <label>登录密码:</label>
@@ -32,8 +41,11 @@
           type="password"
           placeholder="请输入你的登录密码"
           v-model="password"
+          name="password"
+          v-validate="{ required: true, regex: /^[0-9A-z]{7,20}$/ }"
+          :class="{ invalid: errors.has(`password`) }"
         />
-        <span class="error-msg">错误提示信息</span>
+        <span class="error-msg">{{ errors.first("password") }}</span>
       </div>
       <div class="content">
         <label>确认密码:</label>
@@ -41,18 +53,27 @@
           type="password"
           placeholder="请输入确认密码"
           v-model="password1"
+          name="password1"
+          v-validate="{ required: true, is: password1 != password }"
+          :class="{ invalid: errors.has(`password1`) }"
         />
-        <span class="error-msg">错误提示信息</span>
+        <span class="error-msg">{{ errors.first("password1") }}</span>
       </div>
       <div class="controls">
-        <input name="m1" type="checkbox" v-model="isCheck" />
+        <input
+          type="checkbox"
+          v-model="isCheck"
+          name="isCheck"
+          v-validate="{ required: true, agree: true }"
+          :class="{ invalid: errors.has(`isCheck`) }"
+        />
         <span>同意协议并注册《尚品汇用户协议》</span>
-        <span class="error-msg">错误提示信息</span>
+        <span class="error-msg">{{ errors.first("isCheck") }}</span>
       </div>
       <div class="btn">
         <button
           @click="
-            Register(phoneNum, verificationCode, password, password1, isCheck)
+            Register(phoneNum, verificationCode, password)
           "
         >
           完成注册
@@ -84,6 +105,7 @@ export default {
   name: "Register",
   data() {
     return {
+      //verificationCode:'',
       phoneNum: "",
       isCheck: "",
       password: "",
@@ -104,23 +126,34 @@ export default {
         : alert("请输入正确的手机号");
     },
     /* 注册用户 */
-    async Register(phoneNum, verificationCode, password, password1, isCheck) {
-      if (/^[0-9]{11}$/.test(phoneNum)) {
+    //async Register(phoneNum, verificationCode, password, password1, isCheck) {
+    async Register(phoneNum, verificationCode, password) {
+      /* if (/^[0-9]{11}$/.test(phoneNum)) {
         if (verificationCode != "") {
           if (password == password1 && password != "") {
             if (isCheck) {
-              let data={
-                phone:phoneNum,
-                password:password,
-                code:verificationCode
-              }
-              await this.$store.dispatch('RegisterAndLogin/Register',data);
-              this.$router.push('Login');
+              let data = {
+                phone: phoneNum,
+                password: password,
+                code: verificationCode,
+              };
+              await this.$store.dispatch("RegisterAndLogin/Register", data);
+              this.$router.push("Login");
             }
           } else {
             alert("输入的密码必须一致");
           }
         }
+      } */
+      let success = await this.$validator.validateAll();
+      if (success) {
+        let data = {
+          phone: phoneNum,
+          password: password,
+          code: verificationCode,
+        };
+        await this.$store.dispatch("RegisterAndLogin/Register", data);
+        this.$router.push("Login");
       }
     },
   },

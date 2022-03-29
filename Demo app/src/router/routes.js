@@ -93,6 +93,11 @@ export default [{
         path: '/pay',
         name: 'pay',
         component: Pay,
+        beforeEnter(from, next) {
+            if (from.path == '/trade') {
+                next();
+            }
+        },
         meta: {
             footerNotShow: false
         },
@@ -110,6 +115,14 @@ export default [{
         name: 'center',
         redirect: '/center/myorder',
         component: Center,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem('Token')) {
+                next();
+            } else {
+                alert('请登录用户');
+                next('/Login');
+            }
+        },
         children: [{
             path: 'myorder',
             name: 'myorder',

@@ -8,8 +8,9 @@ import store from '@/store'
 import './mock/mockserver.js'
 //import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css/swiper.css'
-import PagiNation from '@/components/PagiNation';
+import PagiNation from '@/components/PagiNation'
 import { MessageBox, Button } from 'element-ui'
+import '@/plugins/validata.js'
 
 Vue.config.productionTip = false;
 Vue.component(Nav.name, Nav);
