@@ -1,0 +1,65 @@
+/* 公共样式 */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+/* 外层容器 */
+
+.outer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+/* 内层容器 */
+
+.container {
+    width: 782px;
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+}
+
+.showPanel {
+    position: absolute;
+    height: 100%;
+    transition: all 0.5s linear;
+}
+
+.showImage {
+    /* width: 25%; */
+    height: 100%;
+    background-size: cover;
+    float: left;
+}
+
+.btnArea {
+    width: 100%;
+    height: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    border: none;
+    width: 388px;
+    height: 100%;
+    color: white;
+    background-color: rgb(102, 51, 153);
+    cursor: pointer;
+}

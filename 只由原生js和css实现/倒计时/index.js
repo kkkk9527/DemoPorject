@@ -29,7 +29,7 @@ function changeNumber(timer) {
         number.innerText = count;
     }, 4000)
 }
-
+/* 动态修改数字 */
 function setTimer() {
     let timer = setInterval(() => {
         count--
