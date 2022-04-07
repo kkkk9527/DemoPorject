@@ -1,0 +1,93 @@
+/* 公共样式 */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(184, 138, 203);
+}
+
+
+/* 外层容器 */
+
+.container {
+    width: 340px;
+    height: 600px;
+    padding: 3px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.main {
+    width: 100%;
+    height: 90%;
+    border-radius: 10px 10px 0 0;
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+.show {
+    display: unset;
+    animation: ani 0.4s ease;
+}
+
+.menu {
+    width: 100%;
+    height: 10%;
+    display: flex;
+}
+
+
+/* 菜单栏 */
+
+.menu div {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.menu div i {
+    font-size: larger;
+}
+
+.menu div p {
+    font-size: small;
+}
+
+.menu div:hover {
+    color: rgb(142, 68, 173);
+}
+
+.notActive {
+    color: rgb(119, 119, 119);
+}
+
+.active {
+    color: rgb(142, 68, 173);
+}
+
+@keyframes ani {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

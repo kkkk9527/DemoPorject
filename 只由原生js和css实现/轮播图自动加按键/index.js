@@ -45,13 +45,7 @@ document.querySelector('.Prev').addEventListener('click', () => {
     /* 切换到下一张图片 */
 document.querySelector('.Next').addEventListener('click', () => {
     clearInterval(timer);
-    if (left < url.length - 1) {
-        left++;
-        showPanel.style.left = '-' + left * 100 + '%';
-    } else {
-        left = 0;
-        showPanel.style.left = left + '%';
-    }
+    autoSlide();
     timer = setInterval(() => {
         autoSlide()
     }, 3000);
