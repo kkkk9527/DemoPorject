@@ -1,3 +1,5 @@
+/* 公共样式 */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -7,9 +9,6 @@
 body {
     width: 100%;
     height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 button {
@@ -27,10 +26,17 @@ button {
     cursor: pointer;
 }
 
+
+/* 外层容器 */
+
 .container {
     display: flex;
     flex-wrap: wrap;
-    transition: all 0.2s linear;
+    transition: all 0.5s linear;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .small {
@@ -43,44 +49,47 @@ button {
     height: 800px;
 }
 
+
+/* 图片显示框 */
+
 .imagebox {
     position: relative;
     width: 150px;
     height: 150px;
-    background-image: url('../Temp/img/66.jpg');
-    transition: all 0.2s linear;
+    background-image: url('https://media.giphy.com/media/EZqwsBSPlvSda/giphy.gif');
+    background-size: 600px 600px;
+    transition: all 0.5s linear;
 }
 
 .active {
     margin: 20px;
-    animation: ani1 0.2s linear;
+    animation: ani1 0.5s linear;
+}
+
+.notActive {
+    animation: ani2 0.5s linear;
+}
+
+.imagebox::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 100%;
+    left: 100%;
+    top: 10px;
+    background-color: rgb(246, 229, 141);
+    transform: skewY(45deg);
 }
 
 .imagebox::before {
     content: '';
     position: absolute;
-    left: 15px;
-    top: 15px;
-    border: 75px solid transparent;
-    border-bottom: 75px solid rgb(249, 202, 36);
-    border-right: 75px solid rgb(246, 229, 141);
-    z-index: -1;
-}
-
-.imagebox div {
-    position: absolute;
-}
-
-.top {
-    left: 100%;
-    border: 15px solid transparent;
-    border-left: 15px solid rgb(246, 229, 141);
-}
-
-.bottom {
+    width: 100%;
+    height: 20px;
     top: 100%;
-    border: 15px solid transparent;
-    border-top: 15px solid rgb(249, 202, 36);
+    left: 10px;
+    background-color: rgb(249, 202, 36);
+    transform: skewX(45deg);
 }
 
 @keyframes ani1 {
@@ -95,5 +104,20 @@ button {
     }
     100% {
         transform: rotate(360deg);
+    }
+}
+
+@keyframes ani2 {
+    25% {
+        transform: rotate(-90deg);
+    }
+    50% {
+        transform: rotate(-180deg);
+    }
+    75% {
+        transform: rotate(-270deg);
+    }
+    100% {
+        transform: rotate(-360deg);
     }
 }
