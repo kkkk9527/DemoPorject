@@ -54,6 +54,10 @@ input {
     border: none;
 }
 
+.active {
+    outline: solid 2px rgb(0, 96, 223);
+}
+
 input:focus {
     outline: solid 2px rgb(0, 96, 223);
 }
