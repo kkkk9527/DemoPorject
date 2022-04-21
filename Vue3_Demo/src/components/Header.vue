@@ -11,12 +11,13 @@
 
 <script lang='ts'>
 import { defineComponent, Ref, ref } from "vue";
-import bus from "@/utils";
+import bus from "../utils";
 import { nanoid } from 'nanoid'
 export default defineComponent({
   name: "Header",
   setup() {
     const taskName:Ref = ref("");
+    /* 添加任务 */
     function sendTaskName () {
         let id=nanoid(10);
         bus.emit('sendMsg',{id:id,name:taskName.value,isChecked:false})

@@ -10,16 +10,22 @@
 
 <script lang='ts'>
 import { computed, defineComponent, Ref, ref, watchEffect } from "vue";
-import bus from "@/utils";
+import bus from "../utils";
+
+interface objElement{
+  name:string
+  isChecked:boolean
+}
+
 export default defineComponent({
   name: "Todo",
   setup() {
     const taskList: Ref = ref([]);
     /* 删除任务 */
     function deleteTask(taskName: string): void {
-      taskList.value.forEach((element: any, index: number) => {
+      taskList.value.forEach((element: objElement, index: number) => {
         if (element.name === taskName) {
-          taskList.value.splice(index,1);
+          taskList.value.splice(index, 1);
         }
       });
     }
@@ -29,7 +35,7 @@ export default defineComponent({
     });
     /* 计算打钩的任务总数 */
     const trueCount = computed((): number => {
-      return taskList.value.reduce((total: number, value: any) => {
+      return taskList.value.reduce((total: number, value: objElement) => {
         if (value.isChecked) {
           total++;
         }
@@ -42,7 +48,7 @@ export default defineComponent({
     });
     /* 接收header的任务名称 */
     bus.on("sendMsg", (data: any): void => {
-      let isIn = taskList.value.some((value: any) => {
+      let isIn = taskList.value.some((value: objElement) => {
         return value.name.indexOf(data.name) != -1;
       });
       if (!isIn) {
@@ -51,6 +57,19 @@ export default defineComponent({
         alert("该任务已存在");
       }
     });
+   /* 全选所有任务 */
+    bus.on("changeAllCkeck", (Check: any): void => {
+      taskList.value.forEach((element: objElement) => {
+        element.isChecked = Check;
+      });
+    });
+     /* 删除所有已完成的任务 */
+    bus.on("deleteTrueCheck", (): void => {
+      taskList.value=taskList.value.filter((value:objElement)=>{
+        return value.isChecked !=true;
+      })
+    });
+
     return {
       taskList,
       count,
