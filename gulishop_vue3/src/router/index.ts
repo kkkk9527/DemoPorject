@@ -13,11 +13,10 @@ const routes: Array<RouteRecordRaw> = [
   },
   /* 搜索 */
   {
-    path: '/search',
+    path: '/search/:keyword?/:categoryName?/:category1Id?/:category2Id?/:category3Id?',
+    //path: '/search',
     name: 'search',
-    component: () => {
-      import('@/views/Search/index.vue')
-    }
+    component: () =>import('@/views/Search/index.vue')
   }
 ]
 

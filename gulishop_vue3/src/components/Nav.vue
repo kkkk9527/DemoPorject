@@ -1,8 +1,7 @@
 <template>
   <div class="type-nav">
-    {{ baseCategoryList.value }}
     <div class="container">
-      <h2 class="all">全部商品分类</h2>
+      <h2 class="all" @mouseover="showlist()">全部商品分类</h2>
       <nav class="nav">
         <a href="###">服装城</a>
         <a href="###">美妆馆</a>
@@ -13,17 +12,20 @@
         <a href="###">有趣</a>
         <a href="###">秒杀</a>
       </nav>
-      <div class="sort">
+      <div class="sort" v-show="show" @mouseleave="notShowList()">
         <div class="all-sort-list2">
           <div
             class="item bo"
             v-for="category in baseCategoryList"
             :key="category.categoryId"
-            :data-v-1Id="category.categoryId"
-            @click="getCategoryId($event)"
+            @click="searchCategory($event)"
           >
             <h3>
-              <a>{{ category.categoryName }}</a>
+              <a
+                :data-category1Id="category.categoryId"
+                :data-categoryName="category.categoryName"
+                >{{ category.categoryName }}</a
+              >
             </h3>
             <div class="item-list clearfix">
               <div
@@ -33,14 +35,22 @@
               >
                 <dl class="fore">
                   <dt>
-                    <a>{{ subCategory.categoryName }}</a>
+                    <a
+                      :data-category2Id="subCategory.categoryId"
+                      :data-categoryName="subCategory.categoryName"
+                      >{{ subCategory.categoryName }}</a
+                    >
                   </dt>
                   <dd>
                     <em
                       v-for="subSubCategory in subCategory.categoryChild"
                       :key="subSubCategory.categoryId"
                     >
-                      <a>{{ subSubCategory.categoryName }}</a>
+                      <a
+                        :data-category3Id="subSubCategory.categoryId"
+                        :data-categoryName="subSubCategory.categoryName"
+                        >{{ subSubCategory.categoryName }}</a
+                      >
                     </em>
                   </dd>
                 </dl>
@@ -54,25 +64,84 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, onMounted, computed } from "vue";
+import { defineComponent, onMounted, computed, reactive, ref } from "vue";
 import { useStore } from "vuex";
+import { useRouter, useRoute } from "vue-router";
 export default defineComponent({
   name: "Nav",
   setup() {
-    let store = useStore();
+    let store = useStore(),
+      router = useRouter(),
+      route = useRoute(),
+      show = ref(true),//判断是否显示导航列表的属性
+      obj1 = {};
+ /*    const categoryList = reactive({
+      category1Id: undefined,
+      category2Id: undefined,
+      category3Id: undefined,
+      categoryName: undefined,
+      keyword: undefined,
+      props: undefined,
+      trademark: undefined,
+      order: undefined,
+      pageNo: 1,
+      pageSize: 10,
+    }); */
     onMounted((): void => {
+      if (route.path != "/home") {
+        show.value = false;
+      }
+      /* 获取目录 */
       store.dispatch("home/GetBaseCategoryList");
     });
-    function getCategoryId(event:any):void{
-        console.log(event.target.dataset);
+    function notShowList(): void {
+      if (route.path != "/home") {
+        show.value = false;
+      }
     }
+    function showlist(): void {
+      show.value = true;
+    }
+    /* 跳转到Search页面 */
+    function searchCategory(event:any): void {
+      let obj = event.target.dataset,
+        { category1id, category2id, category3id, categoryname } = obj;
+      if (categoryname) {
+        if (category1id) {
+          obj1 = {
+            categoryname: categoryname,
+            category1id: category1id,
+          };
+        } else if (category2id) {
+          obj1 = {
+            categoryname: categoryname,
+            category2id: category2id,
+          };
+        } else if (categoryname && category3id) {
+          obj1 = {
+            categoryname: categoryname,
+            category3id: category3id,
+          };
+        }
+      }
+      router.push({
+        name:'search',
+        query: obj1,
+      });
+    }
+
     return {
-      getCategoryId,
+      notShowList,
+      showlist,
+      show,
+      // categoryList,
+      searchCategory,
       baseCategoryList: computed(() => {
         return store.state.home.List || [];
       }),
     };
   },
+  methods: {},
 });
 </script>
 

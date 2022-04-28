@@ -2,29 +2,19 @@
   <div class="list-container">
     <div class="sortList clearfix">
       <div class="center">
-        <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="@/images/home/banner1.jpg" />
-            </div>
-            <!-- <div class="swiper-slide">
-              <img src="@/images/home/banner2.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="@/images/home/banner3.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="@/images/home/banner4.jpg" />
-            </div> -->
-          </div>
-          <!-- 如果需要分页器 -->
-          <div class="swiper-pagination"></div>
-
-          <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-        </div>
+        <swiper
+          :slides-per-view="1"
+          :modules="modules"
+          :space-between="50"
+          navigation
+          :loop="true"
+          :pagination="{ clickable: true }"
+          :scrollbar="{ draggable: true }"
+        >
+          <swiper-slide v-for="list in bannerList" :key="list.id">
+            <img :src="list.imgUrl" />
+          </swiper-slide>
+        </swiper>
       </div>
       <div class="right">
         <div class="news">
@@ -100,9 +90,30 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from "vue";
+import { defineComponent, onMounted, computed } from "vue";
+import { useStore } from "vuex";
+import { Swiper, SwiperSlide } from "swiper/vue/swiper-vue";
+import { Navigation, Pagination, Scrollbar } from "swiper";
+
 export default defineComponent({
-  name:'List'
+  name: "List",
+  components: {
+    Swiper,
+    SwiperSlide,
+  },
+  setup() {
+    let store = useStore();
+    onMounted(() => {
+      store.dispatch("home/getBannerList");
+    });
+    return {
+      /* 轮播图地址 */
+      bannerList: computed(() => {
+        return store.state.home.bannerList || [];
+      }),
+      modules: [Navigation, Pagination, Scrollbar],
+    };
+  },
 });
 </script>
 
@@ -177,7 +188,7 @@ export default defineComponent({
           width: 25%;
 
           .list-item {
-            background-image: url('../../images/home/icons.png');
+            background-image: url("../../images/home/icons.png");
             width: 61px;
             height: 40px;
             display: block;

@@ -36,7 +36,7 @@ class HttpRequest {
             if (code === 200) {
                 return data;
             } else {
-                console.error(msg);
+                alert(msg);
             }
         }, function (error) {
             // 对响应错误做点什么
