@@ -11,15 +11,30 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-show="categoryList.categoryName">
+              {{ categoryList.categoryName }}<i @click="remove()">×</i>
+            </li>
+            <li class="with-x" v-if="categoryList.trademark">
+              {{ categoryList.trademark.split(":")[1]
+              }}<i @click="categoryList.trademark = undefined">×</i>
+            </li>
+            <li
+              class="with-x"
+              v-for="(prop, index) in categoryList.props"
+              :key="index"
+            >
+              {{ prop.split(":")[1] }}<i @click="remove(prop)">×</i>
+            </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector
+          :attrList="attrList"
+          :trademarkList="trademarkList"
+          :dataMerge="dataMerge"
+          :addProps="addProps"
+        />
 
         <!--details-->
         <div class="details clearfix">
@@ -49,28 +64,19 @@
           </div>
           <div class="goods-list">
             <ul class="yui3-g">
-              <li class="yui3-u-1-5">
+              <li class="yui3-u-1-5" v-for="good in goodList" :key="good.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html" target="_blank"
-                      ><img src="./images/mobile01.png"
-                    /></a>
+                    <a><img :src="good.defaultImg" /></a>
                   </div>
                   <div class="price">
                     <strong>
                       <em>¥</em>
-                      <i>6088.00</i>
+                      <i>{{ good.price }}</i>
                     </strong>
                   </div>
                   <div class="attr">
-                    <a
-                      target="_blank"
-                      href="item.html"
-                      title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】"
-                      >Apple苹果iPhone 6s (A1699)Apple苹果iPhone 6s
-                      (A1699)Apple苹果iPhone 6s (A1699)Apple苹果iPhone 6s
-                      (A1699)</a
-                    >
+                    <a>{{ good.title }}</a>
                   </div>
                   <div class="commit">
                     <i class="command">已有<span>2000</span>人评价</i>
@@ -88,7 +94,7 @@
                   </div>
                 </div>
               </li>
-              <li class="yui3-u-1-5">
+              <!-- <li class="yui3-u-1-5">
                 <div class="list-wrap">
                   <div class="p-img">
                     <img src="./images/mobile02.png" />
@@ -420,7 +426,7 @@
                     >
                   </div>
                 </div>
-              </li>
+              </li> -->
             </ul>
           </div>
           <div class="fr page">
@@ -459,15 +465,155 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from "vue";
+import {
+  defineComponent,
+  onUnmounted,
+  reactive,
+  onMounted,
+  computed,
+  watch,
+} from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useStore } from "vuex";
 import SearchSelector from "./SearchSelector/SearchSelector.vue";
 import Nav from "@/components/Nav.vue";
+
+interface searchData {
+  category1Id?: undefined | string;
+  category2Id?: undefined | string;
+  category3Id?: undefined | string;
+  categoryName?: undefined | string;
+  keyword?: undefined | string;
+  props: any[];
+  trademark: undefined | string;
+  order: string;
+  pageNo: number;
+  pageSize: number;
+}
+
 export default defineComponent({
   name: "Search",
-
+  setup() {
+    let router = useRouter(),
+      route = useRoute(),
+      store = useStore();
+    /* 请求商品的参数 */
+    const categoryList: searchData = reactive({
+      category1Id: undefined,
+      category2Id: undefined,
+      category3Id: undefined,
+      categoryName: undefined,
+      keyword: undefined,
+      props: [],
+      trademark: undefined,
+      order: "1:desc",
+      pageNo: 1,
+      pageSize: 10,
+    });
+    /* 移除面包屑中的参数 */
+    function remove(name?: string) {
+      if (!name) {
+        let obj = {
+          category1Id: undefined,
+          category2Id: undefined,
+          category3Id: undefined,
+          categoryName: undefined,
+        };
+        router.push({
+          name: "search",
+          query: obj,
+        });
+      } else {
+        categoryList.props.splice(categoryList.props.indexOf(name), 1);
+      }
+    }
+    /* 合并请求参数 */
+    function dataMerge<T>(data1: T): void {
+      let obj = { trademark: data1 };
+      Object.assign(categoryList, obj);
+    }
+    /* 添加props属性 */
+    function addProps(prop: string): void {
+      categoryList.props.push(prop);
+      sessionStorage.setItem("props", categoryList.props.toString());
+    }
+    /* 挂载组件时请求数据 */
+    onMounted(() => {
+      let obj: searchData = {
+        props: [],
+        trademark: sessionStorage.getItem("trademark") || undefined,
+        order: "1:desc",
+        pageNo: 1,
+        pageSize: 10,
+      };
+      let prop = sessionStorage.getItem("props");
+      if (prop) {
+        obj.props = prop.split(",");
+      }
+      Object.assign(categoryList, route.query, obj);
+      // store.dispatch("search/GetGoodList", categoryList);
+    });
+    onUnmounted(() => {
+      sessionStorage.clear();
+    });
+    /* 监视地址变化并向后台请求数据 */
+    watch(
+      () => route.path,
+      () => {
+        let obj = {
+          category1Id: undefined,
+          category2Id: undefined,
+          category3Id: undefined,
+          categoryName: undefined,
+        };
+        Object.assign(obj, route.query);
+        Object.assign(categoryList, obj);
+        //store.dispatch("search/GetGoodList", categoryList);
+      },
+      { deep: true }
+    );
+    /* 监视请求参数对象 */
+    watch(
+      categoryList,
+      () => {
+        store.dispatch("search/GetGoodList", categoryList);
+      },
+      { deep: true }
+    );
+    return {
+      //  品牌列表
+      trademarkList: computed(() => {
+        return store.getters["search/GetTrademarkList"];
+      }),
+      // 属性列表
+      attrList: computed(() => {
+        return store.getters["search/GetAttrsList"];
+      }),
+      // 商品列表
+      goodList: computed(() => {
+        return store.getters["search/GetGoodList"];
+      }),
+      dataMerge,
+      categoryList,
+      remove,
+      addProps,
+    };
+  },
+  /* watch: { */
+  /* setup()中无法监视地址的变化 */
+  /* $route() {
+      let data = {};
+      Object.assign(data, this.categoryList, this.$route.query);
+      this.GetGoodList(data);
+      console.log(data);
+    },
+  },
+  methods: {
+    ...mapActions('search',['GetGoodList'])
+  }, */
   components: {
     SearchSelector,
-    Nav
+    Nav,
   },
 });
 </script>

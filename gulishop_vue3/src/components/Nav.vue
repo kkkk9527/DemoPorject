@@ -73,20 +73,8 @@ export default defineComponent({
     let store = useStore(),
       router = useRouter(),
       route = useRoute(),
-      show = ref(true),//判断是否显示导航列表的属性
+      show = ref(true), //判断是否显示导航列表的属性
       obj1 = {};
- /*    const categoryList = reactive({
-      category1Id: undefined,
-      category2Id: undefined,
-      category3Id: undefined,
-      categoryName: undefined,
-      keyword: undefined,
-      props: undefined,
-      trademark: undefined,
-      order: undefined,
-      pageNo: 1,
-      pageSize: 10,
-    }); */
     onMounted((): void => {
       if (route.path != "/home") {
         show.value = false;
@@ -103,31 +91,31 @@ export default defineComponent({
       show.value = true;
     }
     /* 跳转到Search页面 */
-    function searchCategory(event:any): void {
+    function searchCategory(event: any): void {
       let obj = event.target.dataset,
         { category1id, category2id, category3id, categoryname } = obj;
       if (categoryname) {
         if (category1id) {
           obj1 = {
-            categoryname: categoryname,
-            category1id: category1id,
+            categoryName: categoryname,
+            category1Id: category1id,
           };
         } else if (category2id) {
           obj1 = {
-            categoryname: categoryname,
-            category2id: category2id,
+            categoryName: categoryname,
+            category2Id: category2id,
           };
         } else if (categoryname && category3id) {
           obj1 = {
-            categoryname: categoryname,
-            category3id: category3id,
+            categoryName: categoryname,
+            category3Id: category3id,
           };
         }
-      }
-      router.push({
-        name:'search',
+        router.push({
+        name: "search",
         query: obj1,
       });
+      }
     }
 
     return {

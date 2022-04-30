@@ -46,10 +46,7 @@ class HttpRequest {
     }
 }
 
-// const requests = axios.create({
-//     baseURL: '/api',
-//     timeout: 5000
-// });
+
 export interface ResponseData{
     code:number;
     data?:any

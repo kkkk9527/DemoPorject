@@ -3,7 +3,7 @@ import { AxiosPromise } from "axios";
 import config from "@/config";
 const baseUrl = config.api.baseUrl;
 const baseUrl1 = config.api.baseUrl1;
-
+/* 获取三级菜单 */
 export const getBaseCategoryList = (data?: any): AxiosPromise<ResponseData> => {
     return axios.requests({
         url: baseUrl + '/product/getBaseCategoryList',
@@ -11,7 +11,15 @@ export const getBaseCategoryList = (data?: any): AxiosPromise<ResponseData> => {
         method: 'GET'
     })
 };
-
+/* 获取商品列表 */
+export const getGoodList = (data?: any): AxiosPromise<ResponseData> => {
+    return axios.requests({
+        url: baseUrl + '/list',
+        data,
+        method: 'post'
+    })
+};
+/* 获取轮播图地址 */
 export const getBannerList=(data?:any):AxiosPromise<ResponseData>=>{
   return axios.requests({
     url:baseUrl1+'/banner',
@@ -19,7 +27,7 @@ export const getBannerList=(data?:any):AxiosPromise<ResponseData>=>{
     method:'get'  
   })
 };
-
+/* 获取轮播图地址 */
 export const getFloorList=(data?:any):AxiosPromise<ResponseData>=>{
   return axios.requests({
     url:baseUrl1+'/floor',
