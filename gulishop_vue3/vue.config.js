@@ -4,12 +4,18 @@ const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
 
 module.exports = {
     // ...
-    plugins: [
-        AutoImport({
-            resolvers: [ElementPlusResolver()],
-        }),
-        Components({
-            resolvers: [ElementPlusResolver()],
-        }),
-    ],
+    configureWebpack: {
+        plugins: [
+            AutoImport({
+                resolvers: [ElementPlusResolver()],
+            }),
+            Components({
+                resolvers: [ElementPlusResolver()],
+            }),
+            require('unplugin-element-plus/webpack')({
+                // options
+                UseSource: true,
+            }),
+        ],
+    }
 }
