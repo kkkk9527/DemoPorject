@@ -3,6 +3,8 @@ import test from './test'
 import home from './home'
 import search from './search'
 import detail from './detail'
+import cart from './cart'
+import login from './login'
 
 
 export default createStore({
@@ -10,6 +12,8 @@ export default createStore({
     test,
     home,
     search,
-    detail
+    detail,
+    cart,
+    login
   }
 })

@@ -6,7 +6,7 @@ export default {
     actions: {
         async GetGoodList(context: { commit: Commit }, data: any) {
             const result = await getGoodList(data);
-            context.commit('GETGOODLIST', result.data);
+            context.commit('GETGOODLIST', result.data.data);
         }
     },
     mutations: {

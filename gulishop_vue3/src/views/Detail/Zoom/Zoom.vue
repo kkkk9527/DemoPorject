@@ -29,7 +29,7 @@ export default defineComponent({
       elementLeft.value =
         event.clientX - event.target.parentElement.parentElement.offsetLeft - 100;
       elementTop.value =
-        event.clientY - event.target.parentElement.parentElement.offsetTop + 100;
+        event.clientY - event.target.parentElement.parentElement.offsetTop - 100;
     }
     let zoomLeft = computed(() => {
       return -2 * elementLeft.value;

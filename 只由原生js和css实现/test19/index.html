@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>头部</header>
+    <div class="clearfix">
+        <div class="center">主区域</div>
+        <div class="left">左区域</div>
+        <div class="right">又区域</div>
+    </div>
+    <footer>底部</footer>
+</body>
+<script>
+    function sleep(second) {
+        return Promise.resolve(setTimeout(() => {
+            return second
+        }, 1000))
+    }
+
+    (async => {
+        console.log(new Date().toLocaleString())
+        await console.log(sleep(3))
+        console.log(new Date().toLocaleString())
+    })()
+</script>
+
+</html>

@@ -10,25 +10,25 @@ export default {
     actions: {
         async getDetail(context: { commit: Commit }, skuId: number) {
             const result = await getGoodInformation(skuId);
-            context.commit("getDetail", result.data)
+            context.commit("getDetail", result.data.data);
         }
     },
     mutations: {
-        getDetail(state: any, data: any) {
+        getDetail(state: any, data: any): void {
             state.detail = data;
         }
     },
     getters: {
-        categoryView: (state: any) => {
+        categoryView: (state: any): void => {
             return state.detail.categoryView
         },
-        skuInfo:(state: any) => {
+        skuInfo: (state: any): void => {
             return state.detail.skuInfo
         },
-        spuSaleAttrList:(state: any) => {
+        spuSaleAttrList: (state: any): void => {
             return state.detail.spuSaleAttrList
         },
-        price:(state: any) => {
+        price: (state: any): void => {
             return state.detail.price
         },
     },

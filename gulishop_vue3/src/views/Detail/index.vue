@@ -16,7 +16,7 @@
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
-          <Zoom :skuInfo="skuInfo.skuImageList"/>
+          <Zoom :skuInfo="skuInfo.skuImageList" />
           <!-- 小图列表 -->
           <ImageList
             :imageUrlList="skuInfo.skuImageList"
@@ -106,7 +106,7 @@
                 <a href="javascript:" class="mins" @click="reduce">-</a>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a @click="addToCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -359,9 +359,44 @@ export default defineComponent({
       route = useRoute(),
       router = useRouter();
     let count = ref(1);
+    /* 商品信息 */
     let skuInfo = computed(() => {
-      return store.getters["detail/skuInfo"] || {};
-    });
+        return store.getters["detail/skuInfo"] || {};
+      }),
+      /* 商品可选属性 */
+      spuSaleAttrList = computed(() => {
+        return store.getters["detail/spuSaleAttrList"] || {};
+      });
+    /* 添加商品到购物车 */
+    async function addToCart() {
+      let str: any = [];
+      spuSaleAttrList.value.forEach((saleAttr: any): void => {
+        saleAttr.spuSaleAttrValueList.forEach((item: any) => {
+          if (item.isChecked === "1") {
+            str.push(`${item.saleAttrName}:${item.saleAttrValueName}`);
+          }
+        });
+      });
+      let goodData = { skuId: skuInfo.value.id, skuNum: count.value };
+      let result = await store.dispatch("cart/AddToCart", goodData);
+      if (result.status === 200) {
+        router.push({
+          name: "addcartsuccess",
+          query: {
+            // 商品默认图片
+            goodImgUrl: skuInfo.value.skuDefaultImg,
+            // 商品名字
+            goodName: skuInfo.value.skuDesc,
+            // 商品Id
+            skuId: skuInfo.value.id,
+            // 商品数量
+            goodNum: count.value,
+            // 商品属性
+            goodAttr: str,
+          },
+        });
+      }
+    }
     /* 选中图片 */
     function chooseImg(index: number): void {
       skuInfo.value.skuImageList.forEach((element: any) => {
@@ -405,9 +440,7 @@ export default defineComponent({
         return store.getters["detail/categoryView"] || {};
       }),
       skuInfo,
-      spuSaleAttrList: computed(() => {
-        return store.getters["detail/spuSaleAttrList"] || {};
-      }),
+      spuSaleAttrList,
       price: computed(() => {
         return store.getters["detail/price"];
       }),
@@ -416,6 +449,7 @@ export default defineComponent({
       reduce,
       chooseAttr,
       chooseImg,
+      addToCart,
     };
   },
   components: {

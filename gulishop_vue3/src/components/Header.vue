@@ -6,10 +6,14 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="!nickName">
             <span>请</span>
-            <a href="###">登录</a>
-            <a href="###" class="register">免费注册</a>
+            <router-link to="/login">登录</router-link>
+            <router-link to="/register" class="register">免费注册</router-link>
+          </p>
+          <p v-else>
+            <router-link to="/center">{{ nickName }}</router-link>
+            <a class="register" @click="loginOut">退出登录</a>
           </p>
         </div>
         <div class="typeList">
@@ -37,8 +41,13 @@
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
+            v-model="keyWord"
           />
-          <button class="sui-btn btn-xlarge btn-danger" type="button">
+          <button
+            class="sui-btn btn-xlarge btn-danger"
+            type="button"
+            @click="search"
+          >
             搜索
           </button>
         </form>
@@ -48,8 +57,37 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from "vue";
-export default defineComponent({});
+import { defineComponent, ref, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+export default defineComponent({
+  setup() {
+    let keyWord = ref(""),
+      router = useRouter(),
+      store = useStore(),
+      nickName = computed(() => {
+        return store.getters["login/getUserName"] || "";
+      });
+    /* 搜索商品 */
+    function search(): void {
+      const searchData = { keyword: keyWord.value };
+      router.push({ name: "search", query: searchData });
+    }
+    /* 退出 */
+    function loginOut(){
+      console.log('loginOut')
+    }
+    onMounted(() => {
+      store.dispatch("login/getUserInfo");
+    });
+    return {
+      nickName,
+      keyWord,
+      search,
+      loginOut,
+    };
+  },
+});
 </script>
 
 <style lang='less' scoped>

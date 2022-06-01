@@ -6,17 +6,17 @@ export default {
         async GetBaseCategoryList(context: { commit: Commit }) {
             const result = await getBaseCategoryList();
             //console.log(result);
-            context.commit('ADDLIST', result.data);
+            context.commit('ADDLIST', result.data.data);
         },
         async getBannerList(context: { commit: Commit }) {
             const result = await getBannerList();
             //console.log(result);
-            context.commit('ADDBANNERLIST', result.data);
+            context.commit('ADDBANNERLIST', result.data.data);
         },
         async getFloorData(context: { commit: Commit }) {
             const result = await getFloorList();
             //console.log(result);
-            context.commit('ADDFLOORDATA', result.data);
+            context.commit('ADDFLOORDATA', result.data.data);
         }
     },
     mutations: {
