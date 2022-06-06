@@ -16,7 +16,7 @@ import { nanoid } from 'nanoid'
 export default defineComponent({
   name: "Header",
   setup() {
-    const taskName:Ref = ref("");
+    const taskName:Ref = ref(" ");
     /* 添加任务 */
     function sendTaskName () {
         let id=nanoid(10);
